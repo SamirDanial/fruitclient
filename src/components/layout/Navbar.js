@@ -1,4 +1,7 @@
 import React from "react";
+import { NavLink } from 'react-router-dom';
+
+import classes from './Navbar.module.css';
 
 const Navbar = () => {
   return (
@@ -10,10 +13,10 @@ const Navbar = () => {
       </h1>
       <ul>
         <li>
-          <a href="register.html">Register</a>
+          <NavLink className={(navData) => navData.isActive ? classes.active : ''} to='/register'>Register</NavLink>
         </li>
         <li>
-          <a href="login.html">Login</a>
+          <NavLink className={(navData) => navData.isActive ? classes.active : ''} to='/login'>Login</NavLink>
         </li>
       </ul>
     </nav>

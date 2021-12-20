@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Landing, Navbar } from "./components";
+import { Landing, Navbar, Login, Register } from "./components";
 import "./App.css";
 
 function App() {
@@ -9,6 +9,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </>
