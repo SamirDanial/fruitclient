@@ -43,9 +43,9 @@
 .submit {
     padding: 12px 30px;
     width: 40%;
-    margin-top: 40px;
-    background-color: lightgreen;
-    color: grey;
+    margin-top: 30px;
+    background-color: green;
+    color: white;
     font-weight: bold;
     border: none;
     outline: none;
