@@ -301,14 +301,16 @@
   /* Navbar */
   .navbar {
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
+    background-color: transparent;
     align-items: center;
     padding: 0.7rem 2rem;
     position: fixed;
     z-index: 1;
     width: 100%;
     top: 0;
-    border-bottom: solid 1px var(--primary-color);
+    /* border-bottom: solid 1px var(--primary-color); */
+    border-bottom: none;
     opacity: 0.9;
   }
   
@@ -317,7 +319,7 @@
   }
   
   .navbar a {
-    color: #fff;
+    color: green;
     padding: 0.45rem;
     margin: 0 0.25rem;
   }

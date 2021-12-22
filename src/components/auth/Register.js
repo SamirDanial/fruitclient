@@ -49,7 +49,7 @@ const Register = () => {
       dispatch(authActions.authenticate({
         _id: resData.data.createUser && resData.data.createUser._id,
         username: resData.data.createUser && resData.data.createUser.username,
-        token: resData.data.createUser && resData.data.createUser.token
+        token: resData.data.createUser && resData.data.createUser.token,
       }));
       !resData.errors && navigate('/', { replace: true })
     })
