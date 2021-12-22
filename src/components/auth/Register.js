@@ -32,6 +32,9 @@ const Register = () => {
             _id
             username
             token
+            userRole {
+              name
+            }
           }
         }
       `
@@ -45,13 +48,26 @@ const Register = () => {
     }).then(res => {
       return res.json();
     }).then(resData => {
-      resData.errors && alert(resData.errors[0].message)
-      dispatch(authActions.authenticate({
-        _id: resData.data.createUser && resData.data.createUser._id,
-        username: resData.data.createUser && resData.data.createUser.username,
-        token: resData.data.createUser && resData.data.createUser.token,
+      console.log(resData);
+      try{
+        dispatch(authActions.authenticate({
+          _id: resData.data.createUser._id,
+          username: resData.data.createUser.username,
+          token: resData.data.createUser.token,
+          roleName: resData.data.createUser.userRole.name,
+          authState: true
+        }));
+        localStorage.setItem('User', JSON.stringify({
+          _id: resData.data.createUser._id,
+          username: resData.data.createUser.username,
+          token: resData.data.createUser.token,
+          roleName: resData.data.createUser.userRole.name,
+          authState: true
       }));
-      !resData.errors && navigate('/', { replace: true })
+        !resData.errors && navigate('/', { replace: true })
+      } catch {
+        alert(resData.errors[0].message)
+      }
     })
   };
   return (

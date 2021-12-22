@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const logout = () => {
     dispatch(authActions.logout());
+    localStorage.removeItem('User');
   };
   let checkAuthenticate =
     isAuthenticated === true ? (

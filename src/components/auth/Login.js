@@ -43,8 +43,16 @@ const Login = () => {
                 _id: resData.data.loginUser._id,
                 username: resData.data.loginUser.username,
                 token: resData.data.loginUser.token,
-                roleName: resData.data.loginUser.userRole.name
+                roleName: resData.data.loginUser.userRole.name,
+                authState: true
             }))
+            localStorage.setItem('User', JSON.stringify({
+                _id: resData.data.loginUser._id,
+                username: resData.data.loginUser.username,
+                token: resData.data.loginUser.token,
+                roleName: resData.data.loginUser.userRole.name,
+                authState: true
+            }));
             navigate('/', {replace: true})
         } catch {
             alert('Username or password is wrong')
