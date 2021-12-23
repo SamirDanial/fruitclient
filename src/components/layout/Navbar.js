@@ -18,7 +18,7 @@ const Navbar = () => {
     isAuthenticated === true ? (
       <ul>
         <li>
-          <NavLink to="/">
+          <NavLink to="/userprofile">
             {username}
           </NavLink>
           <NavLink onClick={logout} to="/">

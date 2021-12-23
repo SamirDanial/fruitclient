@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { authActions } from '../../store/auth'
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import setAuthToken from "../../utils/setAuthToken";
+import { authActions } from "../../store/auth";
 
 import fruitSabzi from "../../img/fruitsabzi.jpg";
 
 import classes from "./Login.module.css";
+
+const { REACT_APP_SERVER_URL } = process.env;
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -16,7 +20,7 @@ const Login = () => {
   const onSubmitForm = (e) => {
     e.preventDefault();
     let graphqlQuery = {
-        query: `
+      query: `
         {
             loginUser(credintialInput: {username: "${username}", password: "${password}"}) {
               _id,
@@ -27,37 +31,44 @@ const Login = () => {
               }
             }
           }
-        `
-    }
-    fetch('http://localhost:5000/graphql', {
-        method: 'POST',
+        `,
+    };
+
+    axios
+      .post(REACT_APP_SERVER_URL, JSON.stringify(graphqlQuery), {
         headers: {
-            'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(graphqlQuery)
-    }).then((res) => {
-        return res.json();
-    }).then((resData) => {
-        try{
-            resData.data && dispatch(authActions.authenticate({
-                _id: resData.data.loginUser._id,
-                username: resData.data.loginUser.username,
-                token: resData.data.loginUser.token,
-                roleName: resData.data.loginUser.userRole.name,
-                authState: true
-            }))
-            localStorage.setItem('User', JSON.stringify({
-                _id: resData.data.loginUser._id,
-                username: resData.data.loginUser.username,
-                token: resData.data.loginUser.token,
-                roleName: resData.data.loginUser.userRole.name,
-                authState: true
-            }));
-            navigate('/', {replace: true})
-        } catch {
-            alert('Username or password is wrong')
-        }
-    })
+      })
+      .then((res) => {
+        const resData = res.data;
+        resData.data &&
+          dispatch(
+            authActions.authenticate({
+              _id: resData.data.loginUser._id,
+              username: resData.data.loginUser.username,
+              token: resData.data.loginUser.token,
+              roleName: resData.data.loginUser.userRole.name,
+              authState: true,
+            })
+          );
+        localStorage.setItem(
+          "User",
+          JSON.stringify({
+            _id: resData.data.loginUser._id,
+            username: resData.data.loginUser.username,
+            token: resData.data.loginUser.token,
+            roleName: resData.data.loginUser.userRole.name,
+            authState: true,
+          })
+        );
+        setAuthToken(resData.data.loginUser.token);
+        navigate("/", { replace: true });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        alert("Username or password is wrong");
+      });
   };
   return (
     <div className={classes.container2}>

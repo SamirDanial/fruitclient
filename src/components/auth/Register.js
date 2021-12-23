@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../store/auth';
+import setAuthToken from '../../utils/setAuthToken';
 
 import classes from "./Register.module.css";
+
+const {REACT_APP_SERVER_URL} = process.env
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -39,35 +43,34 @@ const Register = () => {
         }
       `
     }
-    fetch('http://localhost:5000/graphql', {
-      method: 'POST',
+
+    axios.post(REACT_APP_SERVER_URL, JSON.stringify(graphqlQuery), {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(graphqlQuery)
-    }).then(res => {
-      return res.json();
-    }).then(resData => {
-      console.log(resData);
-      try{
-        dispatch(authActions.authenticate({
-          _id: resData.data.createUser._id,
-          username: resData.data.createUser.username,
-          token: resData.data.createUser.token,
-          roleName: resData.data.createUser.userRole.name,
-          authState: true
-        }));
-        localStorage.setItem('User', JSON.stringify({
-          _id: resData.data.createUser._id,
-          username: resData.data.createUser.username,
-          token: resData.data.createUser.token,
-          roleName: resData.data.createUser.userRole.name,
-          authState: true
-      }));
-        !resData.errors && navigate('/', { replace: true })
-      } catch {
-        alert(resData.errors[0].message)
       }
+    }).then(res => {
+      const resData = res.data;
+      if(resData.errors) {
+        throw new Error(resData.errors[0].message);
+      }
+      dispatch(authActions.authenticate({
+        _id: resData.data.createUser._id,
+        username: resData.data.createUser.username,
+        token: resData.data.createUser.token,
+        roleName: resData.data.createUser.userRole.name,
+        authState: true
+      }));
+      localStorage.setItem('User', JSON.stringify({
+        _id: resData.data.createUser._id,
+        username: resData.data.createUser.username,
+        token: resData.data.createUser.token,
+        roleName: resData.data.createUser.userRole.name,
+        authState: true
+    }));
+      setAuthToken(resData.data.createUser.token);
+      !resData.errors && navigate('/', { replace: true })
+    }).catch(error => {
+      alert(error)
     })
   };
   return (
