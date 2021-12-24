@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import setAuthToken from "../../utils/setAuthToken";
 import { authActions } from "../../store/auth";
+import { USER_LOGIN } from "../hooks/LoginAndRegister";
+import { useLazyQuery } from "@apollo/client";
 
 import fruitSabzi from "../../img/fruitsabzi.jpg";
 
 import classes from "./Login.module.css";
-
-const { REACT_APP_SERVER_URL } = process.env;
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -17,60 +16,60 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [loginUser /*, { loading, data, error, called }*/] = useLazyQuery(
+    USER_LOGIN,
+    {
+      variables: {
+        username,
+        password,
+      },
+      onCompleted: (data) => {
+        return data;
+      },
+    }
+  );
+
+  let loading = false;
+
   const onSubmitForm = (e) => {
     e.preventDefault();
-    let graphqlQuery = {
-      query: `
-        {
-            loginUser(credintialInput: {username: "${username}", password: "${password}"}) {
-              _id,
-              username,
-              token,
-              userRole {
-                name
-              }
-            }
-          }
-        `,
-    };
-
-    axios
-      .post(REACT_APP_SERVER_URL, JSON.stringify(graphqlQuery), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        const resData = res.data;
-        resData.data &&
-          dispatch(
-            authActions.authenticate({
-              _id: resData.data.loginUser._id,
-              username: resData.data.loginUser.username,
-              token: resData.data.loginUser.token,
-              roleName: resData.data.loginUser.userRole.name,
-              authState: true,
-            })
-          );
-        localStorage.setItem(
-          "User",
-          JSON.stringify({
-            _id: resData.data.loginUser._id,
-            username: resData.data.loginUser.username,
-            token: resData.data.loginUser.token,
-            roleName: resData.data.loginUser.userRole.name,
+    loading = true;
+    setInterval(() => {console.log('Hello')}, 2000);
+    loginUser().then((res) => {
+      loading = false;
+      const data = res.data;
+      const error = res.error;
+      if (error) {
+        alert("Username or password is incorrect");
+      }
+      if (data) {
+        dispatch(
+          authActions.authenticate({
+            _id: data.loginUser._id,
+            username: data.loginUser.username,
+            token: data.loginUser.token,
+            roleName: data.loginUser.userRole.name,
             authState: true,
           })
         );
-        setAuthToken(resData.data.loginUser.token);
+
+        localStorage.setItem(
+          "User",
+          JSON.stringify({
+            _id: data.loginUser._id,
+            username: data.loginUser.username,
+            token: data.loginUser.token,
+            roleName: data.loginUser.userRole.name,
+            authState: true,
+          })
+        );
+        setAuthToken(data.loginUser.token);
         navigate("/", { replace: true });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        alert("Username or password is wrong");
-      });
+      }
+    });
   };
-  return (
+
+  return loading ? <div><h1>Loading</h1></div> : (
     <div className={classes.container2}>
       <form action="" className={classes.form} onSubmit={onSubmitForm}>
         <h2>SIGN IN</h2>

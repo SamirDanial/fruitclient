@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { authActions } from "./store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import {
   Landing,
   Navbar,
@@ -12,6 +13,11 @@ import {
 import ProtectedRoutes from "./protectedRoutes";
 import setAuthToken from "./utils/setAuthToken";
 import "./App.css";
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache()
+})
 
 function App() {
   const isAuth = useSelector((state) => state.auth.authenticated);
@@ -36,6 +42,7 @@ function App() {
 
   return (
     <>
+    <ApolloProvider client={client}>
       <Router>
         <Navbar />
         <Routes>
@@ -47,6 +54,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+    </ApolloProvider>
     </>
   );
 }
