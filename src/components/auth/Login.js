@@ -34,7 +34,6 @@ const Login = () => {
   const onSubmitForm = (e) => {
     e.preventDefault();
     loading = true;
-    setInterval(() => {console.log('Hello')}, 2000);
     loginUser().then((res) => {
       loading = false;
       const data = res.data;
