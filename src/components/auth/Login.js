@@ -5,6 +5,7 @@ import setAuthToken from "../../utils/setAuthToken";
 import { authActions } from "../../store/auth";
 import { USER_LOGIN } from "../hooks/LoginAndRegister";
 import { useLazyQuery } from "@apollo/client";
+import Loader from "react-loader-spinner";
 
 import fruitSabzi from "../../img/fruitsabzi.jpg";
 
@@ -68,8 +69,19 @@ const Login = () => {
     });
   };
 
-  return loading ? <div><h1>Loading</h1></div> : (
+  return (
     <div className={classes.container2}>
+      {loading && (
+        <div className={classes.spinner}>
+          <Loader
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            // timeout={3000} //3 secs
+          />
+        </div>
+      )}
       <form action="" className={classes.form} onSubmit={onSubmitForm}>
         <h2>SIGN IN</h2>
         <input

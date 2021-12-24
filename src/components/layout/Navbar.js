@@ -18,7 +18,7 @@ const Navbar = () => {
     isAuthenticated === true ? (
       <ul>
         <li>
-          <NavLink to="/userprofile">
+          <NavLink className={(navData) => (navData.isActive ? classes.active : "")} to="/userprofile">
             {username}
           </NavLink>
           <NavLink onClick={logout} to="/">

@@ -1,62 +1,56 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
-import classes from './CustomerProfile.module.css';
-
-const {REACT_APP_SERVER_URL} = process.env
+import classes from "./CustomerProfile.module.css";
 
 const CustomerProfile = () => {
-    const [customer, setCustomer] = useState({});
-    const token = useSelector(state => state.auth.token);
+  const navigate = useNavigate();
+  const customer = useSelector((state) => state.customer);
+  console.log(customer);
 
-    useEffect(() => {
-        let graphqlQuery = {
-            query: `
-                    {
-                        getCustomerProfile {
-                        _id,
-                        name,
-                        lastName,
-                        active,
-                        photoUrl,
-                        physicalAddress,
-                        phoneNumber,
-                        emailAddress,
-                        coordinates,
-                        favoriteCategories {
-                            _id,
-                            name,
-                            description,
-                        },
-                        userId {
-                            _id,
-                            username,
-                            userRole {
-                            _id,
-                            name,
-                            description,
-                            },
-                        },
-                        
-                        }
-                    }
-            `
-        }
-
-        axios.post(REACT_APP_SERVER_URL, JSON.stringify(graphqlQuery), {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => {
-            console.log(res.data);
-        })
-    }, [token])
-    return (
-        <div className={classes.container2}>
-            <h1>User Profile</h1>
+  return customer._id === '' ? (
+    <div className={classes.container2}>
+        <ul>
+            <li>
+                <span  className={classes.fieldName}>You haven't yet introduce your self to us</span>
+            </li>
+        </ul>
+        <div>
+            <button className={classes.completeProfile}>Complete Profile</button>
         </div>
-    )
-}
+    </div>
+  ) : (
+    <div className={classes.container2}>
+      <ul>
+        <li>
+          <span className={classes.fieldName}>Name:</span>
+          <span className={classes.fieldValue}>{customer.name}</span>
+        </li>
+        <li>
+          <span className={classes.fieldName}>Last Name:</span>
+          <span className={classes.fieldValue}>{customer.lastName}</span>
+        </li>
+        <li>
+          <span className={classes.fieldName}>Phone Number:</span>
+          <span className={classes.fieldValue}>{customer.phoneNumber}</span>
+        </li>
+        <li>
+          <span className={classes.fieldName}>Email Address:</span>
+          <span className={classes.fieldValue}>{customer.emailAddress}</span>
+        </li>
+        <li>
+          <span className={classes.fieldName}>Physical Address:</span>
+          <span className={classes.fieldValue}>{customer.physicalAddress}</span>
+        </li>
+      </ul>
+      <div>
+      <div>
+            <button onClick={() => navigate('/editProfile')} className={classes.completeProfile}>Edit Profile</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default CustomerProfile;
