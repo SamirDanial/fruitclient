@@ -11,6 +11,13 @@ import {
   Register,
   CustomerProfile,
   EditProfile,
+  Home,
+  Products,
+  About,
+  Contact,
+  Footer,
+  Product_Details,
+  Cart
 } from "./components";
 import ProtectedRoutes from "./protectedRoutes";
 import "./App.css";
@@ -67,12 +74,19 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/product_detail" element={<Product_Details />} />
+          <Route path="/cart" element={<Cart />} />
           <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
             <Route path="/userprofile" element={<CustomerProfile />} />
             <Route path="/editProfile" element={<EditProfile />} />
           </Route>
         </Routes>
       </Router>
+      <Footer />
     </ApolloProvider>
     </>
   );

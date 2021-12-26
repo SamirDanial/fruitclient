@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import setAuthToken from "../../utils/setAuthToken";
 import { authActions } from "../../store/auth";
 import { USER_LOGIN } from "../hooks/LoginAndRegister";
 import { useLazyQuery } from "@apollo/client";
-import Loader from "react-loader-spinner";
-
-import fruitSabzi from "../../img/fruitsabzi.jpg";
-
-import classes from "./Login.module.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -30,13 +25,9 @@ const Login = () => {
     }
   );
 
-  let loading = false;
-
   const onSubmitForm = (e) => {
     e.preventDefault();
-    loading = true;
     loginUser().then((res) => {
-      loading = false;
       const data = res.data;
       const error = res.error;
       if (error) {
@@ -70,43 +61,34 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.container2}>
-      {loading && (
-        <div className={classes.spinner}>
-          <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            // timeout={3000} //3 secs
-          />
+    <div className="account-page">
+      <div className="container">
+        <div className="row">
+          <div className="col-2">
+            <div className="form-container">
+              <div className="form-btn">
+                <span>Login</span>
+              </div>
+              <form onSubmit={onSubmitForm}>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username"
+                />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+                <button type="submit" className="btn">
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-      )}
-      <form action="" className={classes.form} onSubmit={onSubmitForm}>
-        <h2>SIGN IN</h2>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className={classes.box}
-          placeholder="Enter Username"
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={classes.box}
-          placeholder="Enter Password"
-        />
-        <input type="submit" value="SIGN IN" className={classes.submit} />
-        <NavLink className={classes.a} to="/forgetpassword">
-          Forget Password?
-        </NavLink>
-      </form>
-      <div className={classes.side}>
-        <img src={fruitSabzi} alt=""></img>
       </div>
     </div>
   );
