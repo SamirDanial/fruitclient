@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="navbar">
           <nav>
             {isAuthenticated === true ? (
-              <ul style={{display: width > 800 ? 'block' : !toggle ? "block" : "none"}}>
+              <ul style={{display: width > 800 ? 'block' : toggle ? "block" : "none"}}>
                 <li>
                   <NavLink
                     className={(linkData) =>

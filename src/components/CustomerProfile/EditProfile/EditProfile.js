@@ -8,7 +8,7 @@ const EditProfile = () => {
   const customer = useSelector((state) => state.customer);
   const [editProfile] = useMutation(EDIT_PROFILE, {
     variables: {
-        customerToEdit
+        ...customerToEdit
     },
     onCompleted: (data) => {
         return data;
@@ -16,7 +16,16 @@ const EditProfile = () => {
   })
 
   useEffect(() => {
-    setCustomerToEdit(customer);
+    setCustomerToEdit({
+      ...customer,
+      ID: customer._id.toString(),
+      favoriteCategories: customer.favoriteCategories.map(category => {
+        return {
+          categoryId: category._id.toString(),
+        }
+      }),
+      userId: customer.userId._id.toString()
+    });
   }, []);
 
   const collectFormData = (e) => setCustomerToEdit({
@@ -28,7 +37,7 @@ const EditProfile = () => {
     e.preventDefault();
     editProfile().then((res) => {
         console.log(res);
-    })
+    });
   };
   return (
     <div className="account-page">
