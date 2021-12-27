@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ApolloClient, createHttpLink, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 import {
-  Landing,
   Navbar,
   Login,
   Register,
@@ -16,7 +15,7 @@ import {
   About,
   Contact,
   Footer,
-  Product_Details,
+  ProductDetails,
   Cart
 } from "./components";
 import ProtectedRoutes from "./protectedRoutes";
@@ -71,14 +70,14 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/product_detail" element={<Product_Details />} />
+          <Route path="/product_detail" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
             <Route path="/userprofile" element={<CustomerProfile />} />

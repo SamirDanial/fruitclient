@@ -11,8 +11,8 @@ const Footer = () => {
             <h3>Download Our App</h3>
             <p>Download App for Android and IOS</p>
             <div className="app-logo">
-              <img src={androidApp} />
-              <img src={iosApp} />
+              <img src={androidApp} alt="" />
+              <img src={iosApp} alt="" />
             </div>
           </div>
           <div className="footer-col-2">

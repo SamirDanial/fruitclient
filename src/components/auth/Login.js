@@ -55,7 +55,7 @@ const Login = () => {
           })
         );
         setAuthToken(data.loginUser.token);
-        navigate("/", { replace: true });
+        navigate("/home", { replace: true });
       }
     });
   };

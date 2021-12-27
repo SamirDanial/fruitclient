@@ -65,7 +65,7 @@ const Register = () => {
             })
           );
           setAuthToken(data.createUser.token);
-          navigate("/", { replace: true });
+          navigate("/home", { replace: true });
         }
       })
       .catch((error) => {

@@ -17,7 +17,7 @@ const Products = () => {
       </div>
       <div className="row">
         <div className="col-4" onClick={() => navigate('/product_detail')}>
-          <img src={require('../../img/product-1.jpg')} />
+          <img src={require('../../img/product-1.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -29,7 +29,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-2.jpg')} />
+          <img src={require('../../img/product-2.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -41,7 +41,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-3.jpg')} />
+          <img src={require('../../img/product-3.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -53,7 +53,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-4.jpg')} />
+          <img src={require('../../img/product-4.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -67,7 +67,7 @@ const Products = () => {
       </div>
       <div className="row">
         <div className="col-4">
-          <img src={require('../../img/product-5.jpg')} />
+          <img src={require('../../img/product-5.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -79,7 +79,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-6.jpg')} />
+          <img src={require('../../img/product-6.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -91,7 +91,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-7.jpg')} />
+          <img src={require('../../img/product-7.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -103,7 +103,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-8.jpg')} />
+          <img src={require('../../img/product-8.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -117,7 +117,7 @@ const Products = () => {
       </div>
       <div className="row">
         <div className="col-4">
-          <img src={require('../../img/product-9.jpg')} />
+          <img src={require('../../img/product-9.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -129,7 +129,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-10.jpg')} />
+          <img src={require('../../img/product-10.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -141,7 +141,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-11.jpg')} />
+          <img src={require('../../img/product-11.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />
@@ -153,7 +153,7 @@ const Products = () => {
           <p>$50.00</p>
         </div>
         <div className="col-4">
-          <img src={require('../../img/product-12.jpg')} />
+          <img src={require('../../img/product-12.jpg')} alt="" />
           <h4>Red Printed T-Shirt</h4>
           <div className="rating">
             <i className="fa fa-star" />

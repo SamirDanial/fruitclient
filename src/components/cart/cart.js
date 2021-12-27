@@ -14,12 +14,12 @@ const Cart = () => {
             <tr>
               <td>
                 <div className="cart-info">
-                  <img src={require('../../img/buy-1.jpg')} />
+                  <img src={require('../../img/buy-1.jpg')} alt="" />
                   <div>
                     <p>Red Printed T-Shirt</p>
                     <small>Price: $50.00</small>
                     <br />
-                    <a href>Remove</a>
+                    <p style={{color: "#ff523b", fontSize: "12px", cursor: "pointer"}}>Remove</p>
                   </div>
                 </div>
               </td>
@@ -31,12 +31,12 @@ const Cart = () => {
             <tr>
               <td>
                 <div className="cart-info">
-                  <img src={require('../../img/buy-2.jpg')} />
+                  <img src={require('../../img/buy-2.jpg')} alt="" />
                   <div>
                     <p>Red Printed T-Shirt</p>
                     <small>Price: $50.00</small>
                     <br />
-                    <a href>Remove</a>
+                    <p style={{color: "#ff523b", fontSize: "12px", cursor: "pointer"}}>Remove</p>
                   </div>
                 </div>
               </td>
@@ -48,12 +48,12 @@ const Cart = () => {
             <tr>
               <td>
                 <div className="cart-info">
-                  <img src={require('../../img/buy-3.jpg')} />
+                  <img src={require('../../img/buy-3.jpg')} alt="" />
                   <div>
                     <p>Red Printed T-Shirt</p>
                     <small>Price: $50.00</small>
                     <br />
-                    <a href>Remove</a>
+                    <p  style={{color: "#ff523b", fontSize: "12px", cursor: "pointer"}}>Remove</p>
                   </div>
                 </div>
               </td>
