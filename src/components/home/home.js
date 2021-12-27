@@ -17,7 +17,6 @@ const Home = () => {
     if (isAuth) {
       query().then((res) => {
         const data = res.data;
-        console.log(data);
         if (data) {
           dispatch(
             customerActions.getCustomerProfile({

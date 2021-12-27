@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { EDIT_PROFILE } from '../../hooks/Customer';
+import { useMutation } from '@apollo/client';
 
 const EditProfile = () => {
   const [customerToEdit, setCustomerToEdit] = useState({});
   const customer = useSelector((state) => state.customer);
+  const [editProfile] = useMutation(EDIT_PROFILE, {
+    variables: {
+        customerToEdit
+    },
+    onCompleted: (data) => {
+        return data;
+      },
+  })
 
   useEffect(() => {
     setCustomerToEdit(customer);
@@ -16,7 +26,9 @@ const EditProfile = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log(customerToEdit);
+    editProfile().then((res) => {
+        console.log(res);
+    })
   };
   return (
     <div className="account-page">
@@ -25,7 +37,7 @@ const EditProfile = () => {
           <div className="col-2">
             <div className="form-container">
               <div className="form-btn">
-                <h2>Edit Detail Form</h2>
+                <h2>Edit Detail Form </h2>
               </div>
               <form className="editRegForm" onSubmit={onFormSubmit}>
                 <input

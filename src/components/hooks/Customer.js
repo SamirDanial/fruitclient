@@ -55,7 +55,7 @@ export const EDIT_PROFILE = gql`
           physicalAddress: $physicalAddress,
           phoneNumber: $phoneNumber,
           emailAddress: $emailAddress,
-          coordinates: "", 
+          coordinates: $coordinates, 
           userId: $userId,
           favoriteCategories: $favoriteCategories
       }) {
