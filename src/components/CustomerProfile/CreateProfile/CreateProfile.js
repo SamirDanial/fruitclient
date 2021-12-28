@@ -48,18 +48,19 @@ const CreateProfile = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log(customerToCreate);
     createProfile()
       .then((res) => {
-        dispatch(
-          customerActions.updateCustomerProfile({
-            ...res.data,
-          })
-        );
-        alert("Data Saved Successfully");
+        {
+          dispatch(
+            customerActions.createCustomerProfile({
+              ...res.data,
+            })
+          );
+          alert("Data Saved Successfully");
+        }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error);
       });
   };
   return (

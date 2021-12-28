@@ -38,6 +38,19 @@ const customerSlice = createSlice({
             state.phoneNumber = action.payload.editCustomer.phoneNumber
             state.emailAddress = action.payload.editCustomer.emailAddress
         },
+        createCustomerProfile: (state, action) => {
+            state._id = action.payload.createCustomer._id
+            state.name = action.payload.createCustomer.name
+            state.lastName = action.payload.createCustomer.lastName
+            state.active = action.payload.createCustomer.active
+            state.coordinates = action.payload.createCustomer.coordinates
+            state.photoUrl = action.payload.createCustomer.photoUrl
+            state.physicalAddress = action.payload.createCustomer.physicalAddress
+            state.phoneNumber = action.payload.createCustomer.phoneNumber
+            state.emailAddress = action.payload.createCustomer.emailAddress
+            state.favoriteCategories = action.payload.createCustomer.favoriteCategories
+            state.userId = action.payload.createCustomer.userId
+        },
         changePhoto: (state, action) => {
             state.photoUrl = action.payload.photoUrl
         },
