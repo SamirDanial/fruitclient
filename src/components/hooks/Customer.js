@@ -100,7 +100,7 @@ export const CREATE_PROFILE = gql`
       $favoriteCategories: [CustomerFavoriteCategoryInputData]
       $userId: String
     ) {
-      editCustomer(
+      createCustomer(
         customerInputData: 
         {
           ID: $ID
