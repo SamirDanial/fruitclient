@@ -8,6 +8,7 @@ const Home = () => {
   const isAuth = useSelector((state) => state.auth.authenticated);
   const dispatch = useDispatch();
   const [query] = useLazyQuery(MY_PROFILE, {
+    fetchPolicy: "no-cache",
     onCompleted: (data) => {
       return data;
     },

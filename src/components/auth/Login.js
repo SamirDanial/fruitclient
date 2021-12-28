@@ -15,6 +15,7 @@ const Login = () => {
   const [loginUser /*, { loading, data, error, called }*/] = useLazyQuery(
     USER_LOGIN,
     {
+      fetchPolicy: "no-cache",
       variables: {
         username,
         password,

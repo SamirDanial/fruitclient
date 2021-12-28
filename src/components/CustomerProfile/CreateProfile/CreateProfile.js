@@ -1,57 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { EDIT_PROFILE } from '../../hooks/Customer';
-import { useMutation } from '@apollo/client';
-import { customerActions } from '../../../store/customer';
+import { CREATE_PROFILE } from "../../hooks/Customer";
+import { useMutation } from "@apollo/client";
+import { customerActions } from "../../../store/customer";
 
-const EditProfile = () => {
-  const [customerToEdit, setCustomerToEdit] = useState({
-    _id: '',
-    name: '',
-    lastName: '',
-    phoneNumber: '',
-    emailAddress: '',
-    physicalAddress: '',
+const CreateProfile = () => {
+  const userId = useSelector((state) => state.auth._id);
+  const [customerToCreate, setCustomerToCreate] = useState({
+    _id: "",
+    name: "",
+    lastName: "",
+    phoneNumber: "",
+    emailAddress: "",
+    physicalAddress: "",
   });
   const dispatch = useDispatch();
-  const customer = useSelector((state) => state.customer);
-  const [editProfile] = useMutation(EDIT_PROFILE, {
+  const [createProfile] = useMutation(CREATE_PROFILE, {
     variables: {
-        ...customerToEdit
+      ...customerToCreate,
     },
     onCompleted: (data) => {
-        return data;
-      },
+      return data;
+    },
   });
 
   useEffect(() => {
-    customer._id !== '' && setCustomerToEdit({
-      ...customer,
-      ID:  customer._id.toString(),
-      favoriteCategories: customer.favoriteCategories.map(category => {
-        return {
-          categoryId: category._id.toString(),
-        }
-      }),
-      userId: customer.userId._id.toString()
-    })
-  }, []);
+    setCustomerToCreate({
+      _id: "",
+      name: "",
+      lastName: "",
+      active: true,
+      photoUrl: "",
+      physicalAddress: "",
+      phoneNumber: "",
+      emailAddress: "",
+      coordinates: "",
+      favoritesCategory: [],
+      userId: userId,
+    });
+  }, [userId]);
 
-  const collectFormData = (e) => setCustomerToEdit({
-      ...customerToEdit,
-      [e.target.name]: e.target.value
-  })
+  const collectFormData = (e) =>
+    setCustomerToCreate({
+      ...customerToCreate,
+      [e.target.name]: e.target.value,
+    });
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-      editProfile().then((res) => {
-        dispatch(customerActions.updateCustomerProfile({
-          ...res.data
-        }));
-        alert('Data Saved Successfully');
-    }).catch(error => {
-      console.log(error.message);
-    })
+    console.log(customerToCreate);
+    createProfile()
+      .then((res) => {
+        dispatch(
+          customerActions.updateCustomerProfile({
+            ...res.data,
+          })
+        );
+        alert("Data Saved Successfully");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <div className="account-page">
@@ -60,13 +69,13 @@ const EditProfile = () => {
           <div className="col-2">
             <div className="form-container">
               <div className="form-btn">
-                <h2> Customer Edit Form </h2>
+                <h2> Customer Register Form </h2>
               </div>
               <form className="editRegForm" onSubmit={onFormSubmit}>
                 <input
                   type="text"
                   name="name"
-                  value={customerToEdit.name}
+                  value={customerToCreate.name}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Name"
                   required
@@ -74,7 +83,7 @@ const EditProfile = () => {
                 <input
                   type="text"
                   name="lastName"
-                  value={customerToEdit.lastName}
+                  value={customerToCreate.lastName}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Last Name"
                   required
@@ -82,7 +91,7 @@ const EditProfile = () => {
                 <input
                   type="text"
                   name="phoneNumber"
-                  value={customerToEdit.phoneNumber}
+                  value={customerToCreate.phoneNumber}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Phone Number"
                   required
@@ -90,7 +99,7 @@ const EditProfile = () => {
                 <input
                   type="text"
                   name="emailAddress"
-                  value={customerToEdit.emailAddress}
+                  value={customerToCreate.emailAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Email Address"
                   required
@@ -98,7 +107,7 @@ const EditProfile = () => {
                 <input
                   type="text"
                   name="physicalAddress"
-                  value={customerToEdit.physicalAddress}
+                  value={customerToCreate.physicalAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Physical Address"
                   required
@@ -114,4 +123,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default CreateProfile;

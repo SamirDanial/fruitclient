@@ -10,6 +10,7 @@ import {
   Register,
   CustomerProfile,
   EditProfile,
+  CreateProfile,
   Home,
   Products,
   About,
@@ -82,6 +83,7 @@ function App() {
           <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
             <Route path="/userprofile" element={<CustomerProfile />} />
             <Route path="/editProfile" element={<EditProfile />} />
+            <Route path="/createProfile" element={<CreateProfile />} />
           </Route>
         </Routes>
       </Router>

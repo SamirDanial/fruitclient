@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { authActions } from "../../store/auth";
+import { customerActions } from '../../store/customer';
 import { useWindowSize } from '../hooks/useWindowSize';
 import cart from "../../img/cart.png";
 
@@ -18,6 +19,7 @@ const Navbar = () => {
 
   const logout = () => {
     dispatch(authActions.logout());
+    dispatch(customerActions.logout());
     localStorage.removeItem("User");
   };
 

@@ -4,6 +4,7 @@ export {default as Login} from './auth/Login';
 export {default as Register} from './auth/Register';
 export {default as CustomerProfile} from './CustomerProfile/CustomerProfile';
 export {default as EditProfile} from './CustomerProfile/EditProfile/EditProfile';
+export {default as CreateProfile} from './CustomerProfile/CreateProfile/CreateProfile';
 export {default as Home} from './home/home'
 export {default as Products} from './products/products'
 export {default as About} from './about/about'

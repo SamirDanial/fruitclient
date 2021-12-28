@@ -16,7 +16,7 @@ const CustomerProfile = () => {
         </tbody>
       </table>
       <div>
-        <button className="btn">Complete Profile</button>
+        <button onClick={() => navigate("/createProfile")} className="btn">Complete Profile</button>
       </div>
     </div>
   ) : (

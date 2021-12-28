@@ -17,6 +17,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [userRegister] = useMutation(USER_REGISTER, {
+    fetchPolicy: "no-cache",
     variables: {
       username,
       password,

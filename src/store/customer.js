@@ -32,15 +32,27 @@ const customerSlice = createSlice({
             state.userId = action.payload.userId
         },
         updateCustomerProfile: (state, action) => {
-            state.name = action.payload.name
-            state.lastName = action.payload.lastName
-            state.physicalAddress = action.payload.physicalAddress
-            state.phoneNumber = action.payload.phoneNumber
-            state.emailAddress = action.payload.emailAddress
-            state.coordinates = action.payload.coordinates
+            state.name = action.payload.editCustomer.name
+            state.lastName = action.payload.editCustomer.lastName
+            state.physicalAddress = action.payload.editCustomer.physicalAddress
+            state.phoneNumber = action.payload.editCustomer.phoneNumber
+            state.emailAddress = action.payload.editCustomer.emailAddress
         },
         changePhoto: (state, action) => {
             state.photoUrl = action.payload.photoUrl
+        },
+        logout: (state) => {
+            state._id = "";
+            state.name= "";
+            state.lastName = "";
+            state.active = false;
+            state.photoUrl = "";
+            state.physicalAddress = "";
+            state.phoneNumber = "";
+            state.emailAddress = "";
+            state.coordinates = "";
+            state.favoriteCategories = [{}];
+            state.userId = {};
         }
     }
 });
