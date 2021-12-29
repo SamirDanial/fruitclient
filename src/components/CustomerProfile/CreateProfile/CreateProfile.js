@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { CREATE_PROFILE } from "../../hooks/Customer";
 import { useMutation } from "@apollo/client";
+import axios from "axios";
 import { customerActions } from "../../../store/customer";
 
 const CreateProfile = () => {
   const userId = useSelector((state) => state.auth._id);
+  const token = useSelector((state) => state.auth.token);
+  const photoUrl = useSelector((state) => state.customer.photoUrl);
+  const [previewImage, setPreviewImage] = useState(null);
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [customerToCreate, setCustomerToCreate] = useState({
     _id: "",
     name: "",
     lastName: "",
+    photoUrl: "",
     phoneNumber: "",
     emailAddress: "",
     physicalAddress: "",
@@ -18,6 +26,7 @@ const CreateProfile = () => {
   const [createProfile] = useMutation(CREATE_PROFILE, {
     variables: {
       ...customerToCreate,
+      photoUrl: photoUrl,
     },
     onCompleted: (data) => {
       return data;
@@ -30,7 +39,7 @@ const CreateProfile = () => {
       name: "",
       lastName: "",
       active: true,
-      photoUrl: "",
+      photoUrl: photoUrl,
       physicalAddress: "",
       phoneNumber: "",
       emailAddress: "",
@@ -38,7 +47,7 @@ const CreateProfile = () => {
       favoritesCategory: [],
       userId: userId,
     });
-  }, [userId]);
+  }, [userId, photoUrl]);
 
   const collectFormData = (e) =>
     setCustomerToCreate({
@@ -46,27 +55,55 @@ const CreateProfile = () => {
       [e.target.name]: e.target.value,
     });
 
+  const onSelectPhoto = (e) => {
+    setSelectedFile(e.target.files[0]);
+    let f = e.target.files[0];
+    setPreviewImage(URL.createObjectURL(f));
+  };
+
   const onFormSubmit = (e) => {
     e.preventDefault();
-    createProfile()
-      .then((res) => {
-        {
-          dispatch(
-            customerActions.createCustomerProfile({
-              ...res.data,
-            })
-          );
-          alert("Data Saved Successfully");
-        }
+    const fd = new FormData();
+    fd.append("image", selectedFile, selectedFile.name);
+    axios
+      .put("http://localhost:5000/fruit-images", fd, {
+        headers: {
+          "x-auth-token": token,
+        },
       })
-      .catch((error) => {
-        console.log(error);
+      .then((res) => {
+        dispatch(
+          customerActions.updatePhotoUrl({
+            photoUrl: res.data.filePath,
+          })
+        );
+        createProfile()
+          .then((res) => {
+            {
+              dispatch(
+                customerActions.createCustomerProfile({
+                  ...res.data,
+                })
+              );
+            }
+            navigate("/home", {
+              replace: true,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
   };
   return (
     <div className="account-page">
       <div className="container">
         <div className="row">
+          {previewImage && (
+            <div className="previewImage">
+              <img src={previewImage} alt="" />
+            </div>
+          )}
           <div className="col-2">
             <div className="form-container">
               <div className="form-btn">
@@ -79,7 +116,6 @@ const CreateProfile = () => {
                   value={customerToCreate.name}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Name"
-                  required
                 />
                 <input
                   type="text"
@@ -87,15 +123,15 @@ const CreateProfile = () => {
                   value={customerToCreate.lastName}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Last Name"
-                  required
                 />
+
+                <input type="file" onChange={onSelectPhoto} />
                 <input
                   type="text"
                   name="phoneNumber"
                   value={customerToCreate.phoneNumber}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Phone Number"
-                  required
                 />
                 <input
                   type="text"
@@ -103,7 +139,6 @@ const CreateProfile = () => {
                   value={customerToCreate.emailAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Email Address"
-                  required
                 />
                 <input
                   type="text"
@@ -111,7 +146,6 @@ const CreateProfile = () => {
                   value={customerToCreate.physicalAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Physical Address"
-                  required
                 />
 
                 <input type="submit" value="Saved" className="btn" />

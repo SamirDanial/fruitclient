@@ -16,6 +16,7 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const username = useSelector((state) => state.auth.username);
+  const imageUrl = useSelector((state) => state.customer.photoUrl);
 
   const logout = () => {
     dispatch(authActions.logout());
@@ -29,6 +30,7 @@ const Navbar = () => {
   let checkAuthenticate = (
       <div className="container">
         <div className="navbar">
+        { imageUrl && <img className="navImage" src={'http://localhost:5000/' + imageUrl} alt="" /> }
           <nav>
             {isAuthenticated === true ? (
               <ul style={{display: width > 800 ? 'block' : toggle ? "block" : "none"}}>

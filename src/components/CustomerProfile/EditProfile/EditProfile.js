@@ -1,62 +1,85 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { EDIT_PROFILE } from '../../hooks/Customer';
-import { useMutation } from '@apollo/client';
-import { customerActions } from '../../../store/customer';
+import { EDIT_PROFILE } from "../../hooks/Customer";
+import { useMutation } from "@apollo/client";
+import { customerActions } from "../../../store/customer";
 
 const EditProfile = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const imageUrl = useSelector((state) => state.customer.photoUrl);
   const [customerToEdit, setCustomerToEdit] = useState({
-    _id: '',
-    name: '',
-    lastName: '',
-    phoneNumber: '',
-    emailAddress: '',
-    physicalAddress: '',
+    _id: "",
+    name: "",
+    lastName: "",
+    phoneNumber: "",
+    emailAddress: "",
+    physicalAddress: "",
   });
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.customer);
   const [editProfile] = useMutation(EDIT_PROFILE, {
     variables: {
-        ...customerToEdit
+      ...customerToEdit,
     },
     onCompleted: (data) => {
-        return data;
-      },
+      return data;
+    },
   });
 
   useEffect(() => {
-    customer._id !== '' && setCustomerToEdit({
-      ...customer,
-      ID:  customer._id.toString(),
-      favoriteCategories: customer.favoriteCategories.map(category => {
-        return {
-          categoryId: category._id.toString(),
-        }
-      }),
-      userId: customer.userId._id.toString()
-    })
-  }, []);
+    customer._id !== "" &&
+      setCustomerToEdit({
+        ...customer,
+        ID: customer._id.toString(),
+        favoriteCategories: customer.favoriteCategories.map((category) => {
+          return {
+            categoryId: category._id.toString(),
+          };
+        }),
+        userId: customer.userId._id.toString(),
+      });
+  }, [customer]);
 
-  const collectFormData = (e) => setCustomerToEdit({
+  const collectFormData = (e) =>
+    setCustomerToEdit({
       ...customerToEdit,
-      [e.target.name]: e.target.value
-  })
+      [e.target.name]: e.target.value,
+    });
+
+  const onSelectPhoto = (e) => {
+    setSelectedFile(e.target.files[0]);
+    let f = e.target.files[0];
+    setPreviewImage(URL.createObjectURL(f));
+  };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-      editProfile().then((res) => {
-        dispatch(customerActions.updateCustomerProfile({
-          ...res.data
-        }));
-        alert('Data Saved Successfully');
-    }).catch(error => {
-      console.log(error.message);
-    })
+    editProfile()
+      .then((res) => {
+        dispatch(
+          customerActions.updateCustomerProfile({
+            ...res.data,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <div className="account-page">
       <div className="container">
         <div className="row">
+          {imageUrl ? (
+            <div className="previewImage">
+              <img src={`http://localhost:5000/${imageUrl}`} alt="" />
+            </div>
+          ) : (
+            previewImage && <div className="previewImage">
+              <img src={previewImage} alt="" />
+            </div>
+          )}
           <div className="col-2">
             <div className="form-container">
               <div className="form-btn">
@@ -79,6 +102,8 @@ const EditProfile = () => {
                   placeholder="Last Name"
                   required
                 />
+
+                <input type="file" onChange={onSelectPhoto} />
                 <input
                   type="text"
                   name="phoneNumber"
