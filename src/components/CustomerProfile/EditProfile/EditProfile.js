@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { EDIT_PROFILE } from "../../hooks/Customer";
 import { useMutation } from "@apollo/client";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { customerActions } from "../../../store/customer";
 
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const imageUrl = useSelector((state) => state.customer.photoUrl);
+  const photoUrl = useSelector((state) => state.customer.photoUrl);
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
   const [customerToEdit, setCustomerToEdit] = useState({
     _id: "",
     name: "",
     lastName: "",
+    photoUrl: "",
     phoneNumber: "",
     emailAddress: "",
     physicalAddress: "",
@@ -48,35 +53,72 @@ const EditProfile = () => {
     });
 
   const onSelectPhoto = (e) => {
-    setSelectedFile(e.target.files[0]);
-    let f = e.target.files[0];
-    setPreviewImage(URL.createObjectURL(f));
+    if (e.target) {
+      setSelectedFile(e.target.files[0]);
+      let f = e.target.files[0];
+      setPreviewImage(URL.createObjectURL(f));
+    }
   };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    editProfile()
+    const preValue = {
+      ...customerToEdit
+    }
+    console.log(preValue);
+    if (!selectedFile) {
+      editProfile()
+        .then((res) => {
+          dispatch(
+            customerActions.updateCustomerProfile({
+              ...res.data,
+            })
+          );
+          navigate("/home", { replace: false });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      return;
+    }
+    const fd = new FormData();
+    fd.append("image", selectedFile, selectedFile.name);
+    axios
+      .put("http://localhost:5000/fruit-images", fd, {
+        headers: {
+          "x-auth-token": token,
+        },
+      })
       .then((res) => {
         dispatch(
-          customerActions.updateCustomerProfile({
-            ...res.data,
+          customerActions.updatePhotoUrl({
+            photoUrl: res.data.filePath,
           })
         );
-      })
-      .catch((error) => {
-        console.log(error.message);
+        setCustomerToEdit({
+          ...preValue,
+          // photoUrl: photoUrl,
+        });
+        editProfile()
+          .then((res) => {
+            dispatch(
+              customerActions.updateCustomerProfile({
+                ...res.data,
+              })
+            );
+            navigate("/home", { replace: false });
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
       });
   };
   return (
     <div className="account-page">
       <div className="container">
         <div className="row">
-          {imageUrl ? (
+          {previewImage && (
             <div className="previewImage">
-              <img src={`http://localhost:5000/${imageUrl}`} alt="" />
-            </div>
-          ) : (
-            previewImage && <div className="previewImage">
               <img src={previewImage} alt="" />
             </div>
           )}
@@ -92,7 +134,6 @@ const EditProfile = () => {
                   value={customerToEdit.name}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Name"
-                  required
                 />
                 <input
                   type="text"
@@ -100,7 +141,6 @@ const EditProfile = () => {
                   value={customerToEdit.lastName}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Last Name"
-                  required
                 />
 
                 <input type="file" onChange={onSelectPhoto} />
@@ -110,7 +150,6 @@ const EditProfile = () => {
                   value={customerToEdit.phoneNumber}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Phone Number"
-                  required
                 />
                 <input
                   type="text"
@@ -118,7 +157,6 @@ const EditProfile = () => {
                   value={customerToEdit.emailAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Email Address"
-                  required
                 />
                 <input
                   type="text"
@@ -126,7 +164,6 @@ const EditProfile = () => {
                   value={customerToEdit.physicalAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Physical Address"
-                  required
                 />
 
                 <input type="submit" value="Saved" className="btn" />
