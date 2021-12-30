@@ -63,6 +63,27 @@ const CreateProfile = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+
+    if(!selectedFile) {
+      createProfile()
+          .then((res) => {
+            {
+              dispatch(
+                customerActions.createCustomerProfile({
+                  ...res.data,
+                })
+              );
+            }
+            navigate("/home", {
+              replace: true,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          return;
+    }
+
     const fd = new FormData();
     fd.append("image", selectedFile, selectedFile.name);
     axios

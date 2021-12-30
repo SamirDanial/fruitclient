@@ -12,3 +12,12 @@ export {default as Contact} from './contact/contact'
 export {default as Footer} from './footer/footer'
 export {default as ProductDetails} from './products/product-details/product_detail';
 export {default as Cart} from './cart/cart';
+export {default as AdminPanel} from './adminPanel/adminPanel';
+export {default as CategoryManagement} from './adminPanel/categoryManagement/categoryManagement'
+export {default as CustomerManagement} from './adminPanel/customerManagement/customerManagement'
+export {default as DelieveryManagement} from './adminPanel/delieveryManagement/delieveryManagement'
+export {default as EmployeeManagement} from './adminPanel/employeeManagement/employeeManagement'
+export {default as InventoryManagement} from './adminPanel/inventoryManagement/inventoryManagement'
+export {default as ProductManagement} from './adminPanel/productManagement/productManagement'
+export {default as SaleManagement} from './adminPanel/saleManagement/saleManagement'
+export {default as VendorManagement} from './adminPanel/vendorManagement/vendorManagement'

@@ -141,3 +141,25 @@ export const CREATE_PROFILE = gql`
       }
     }
 `;
+
+export const GET_CUSTOMERS = gql`
+  query GetCustomers($PageNumber: Int!, $PageSize: Int!) {
+    getCustomers(PageNumber: $PageNumber, PageSize: $PageSize) {
+    customers {
+      _id,
+      name,
+      lastName,
+      phoneNumber,
+      physicalAddress,
+      photoUrl,
+      emailAddress,
+      userId {
+        userRole {
+          name
+        }
+      }
+    },
+    allCustomerCount,
+  }
+  }
+`

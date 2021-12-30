@@ -1,10 +1,10 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { authActions } from "../../store/auth";
-import { customerActions } from '../../store/customer';
-import { useWindowSize } from '../hooks/useWindowSize';
+import { customerActions } from "../../store/customer";
+import { useWindowSize } from "../hooks/useWindowSize";
 import cart from "../../img/cart.png";
 
 import menu from "../../img/menu.png";
@@ -16,6 +16,7 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const username = useSelector((state) => state.auth.username);
+  const roleName = useSelector((state) => state.auth.roleName) === "Admin" ? true : false;
   const imageUrl = useSelector((state) => state.customer.photoUrl);
 
   const logout = () => {
@@ -25,57 +26,69 @@ const Navbar = () => {
   };
 
   const toggleMenu = () => {
-    setToggle(prevState => !prevState);
-  }
+    setToggle((prevState) => !prevState);
+  };
   let checkAuthenticate = (
-      <div className="container">
-        <div className="navbar">
-        { imageUrl && <img className="navImage" src={'http://localhost:5000/' + imageUrl} alt="" /> }
-          <nav>
+    <div className="container">
+      <div className="navbar">
+        {imageUrl && (
+          <img
+            className="navImage"
+            src={"http://localhost:5000/" + imageUrl}
+            alt=""
+          />
+        )}
+        <nav>
+          <ul
+            style={{
+              display: width > 800 ? "block" : toggle ? "block" : "none",
+            }}
+          >
+            <li>
+              <NavLink
+                className={(linkData) => (linkData.isActive ? "active" : "")}
+                to="/home"
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={(linkData) => (linkData.isActive ? "active" : "")}
+                to="/products"
+              >
+                Products
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={(linkData) => (linkData.isActive ? "active" : "")}
+                to="/about"
+              >
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={(linkData) => (linkData.isActive ? "active" : "")}
+                to="/contact"
+              >
+                Contact
+              </NavLink>
+            </li>
             {isAuthenticated === true ? (
-              <ul style={{display: width > 800 ? 'block' : toggle ? "block" : "none"}}>
+              <>
                 <li>
                   <NavLink
                     className={(linkData) =>
                       linkData.isActive ? "active" : ""
                     }
-                    to="/home"
+                    to={ roleName ? "/adminPanel" :  "/userprofile"}
                   >
-                    Home
+                    {roleName ? "Admin" : username}
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/products"
-                  >
-                    Products
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/about"
-                  >
-                    About
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/contact"
-                  >
-                    Contact
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="username" to="/userprofile">{username}</NavLink>
                   <NavLink
                     className={(linkData) =>
                       linkData.isActive ? "active" : ""
@@ -86,49 +99,9 @@ const Navbar = () => {
                     Logout
                   </NavLink>
                 </li>
-              </ul>
+              </>
             ) : (
-              <ul style={{display: width > 800 ? 'block' : toggle ? "block" : "none"}}>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/home"
-                  >
-                    Home
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/products"
-                  >
-                    Products
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/about"
-                  >
-                    About
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className={(linkData) =>
-                      linkData.isActive ? "active" : ""
-                    }
-                    to="/contact"
-                  >
-                    Contact
-                  </NavLink>
-                </li>
+              <>
                 <li>
                   <NavLink
                     className={(linkData) =>
@@ -149,14 +122,21 @@ const Navbar = () => {
                     Register
                   </NavLink>
                 </li>
-              </ul>
+              </>
             )}
-          </nav>
-          <img src={cart} onClick={() => navigate('/cart')} width="30px" height="30px" alt="" />
-          <img src={menu} className="menu-icon" alt="" onClick={ toggleMenu } />
-        </div>
+          </ul>
+        </nav>
+        <img
+          src={cart}
+          onClick={() => navigate("/cart")}
+          width="30px"
+          height="30px"
+          alt=""
+        />
+        <img src={menu} className="menu-icon" alt="" onClick={toggleMenu} />
       </div>
-    );
+    </div>
+  );
   return <>{checkAuthenticate}</>;
 };
 

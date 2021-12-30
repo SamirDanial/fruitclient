@@ -17,9 +17,19 @@ import {
   Contact,
   Footer,
   ProductDetails,
-  Cart
+  Cart,
+  AdminPanel,
+  CategoryManagement,
+  CustomerManagement,
+  DelieveryManagement,
+  EmployeeManagement,
+  InventoryManagement,
+  ProductManagement,
+  SaleManagement,
+  VendorManagement
 } from "./components";
 import ProtectedRoutes from "./protectedRoutes";
+import AdminRoutes from "./adminRoutes";
 import "./App.css";
 
 const httpLink = createHttpLink({
@@ -49,6 +59,7 @@ const client = new ApolloClient({
 
 function App() {
   const isAuth = useSelector((state) => state.auth.authenticated);
+  const isAdminRole = useSelector((state) => state.auth.roleName) === "Admin" ? true : false;
   const dispatch = useDispatch();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("User"));
@@ -58,7 +69,7 @@ function App() {
           _id: user._id,
           username: user.username,
           token: user.token,
-          roleName: user.name,
+          roleName: user.roleName,
           authState: user.authState,
         })
       );
@@ -68,25 +79,37 @@ function App() {
   return (
     <>
     <ApolloProvider client={client}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/product_detail" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
-            <Route path="/userprofile" element={<CustomerProfile />} />
-            <Route path="/editProfile" element={<EditProfile />} />
-            <Route path="/createProfile" element={<CreateProfile />} />
-          </Route>
-        </Routes>
-      </Router>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/product_detail" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
+              <Route path="/userprofile" element={<CustomerProfile />} />
+              <Route path="/editProfile" element={<EditProfile />} />
+              <Route path="/createProfile" element={<CreateProfile />} />
+            </Route>
+
+            <Route element={<AdminRoutes isAdminMan={isAdminRole} />}>
+              <Route path="/adminPanel" element={<AdminPanel />} />
+              <Route path="/categoryManagement" element={<CategoryManagement />} />
+              <Route path="/CustomerManagement" element={<CustomerManagement />} />
+              <Route path="/delieveryManagement" element={<DelieveryManagement />} />
+              <Route path="/employeeManagement" element={<EmployeeManagement />} />
+              <Route path="/inventoryManagement" element={<InventoryManagement />} />
+              <Route path="/productManagement" element={<ProductManagement />} />
+              <Route path="/saleManagement" element={<SaleManagement />} />
+              <Route path="/vendorManagement" element={<VendorManagement />} />
+            </Route>
+          </Routes>
+        </Router>
       <Footer />
     </ApolloProvider>
     </>

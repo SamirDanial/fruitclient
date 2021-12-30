@@ -26,6 +26,7 @@ const EditProfile = () => {
   const [editProfile] = useMutation(EDIT_PROFILE, {
     variables: {
       ...customerToEdit,
+      photoUrl: photoUrl,
     },
     onCompleted: (data) => {
       return data;
@@ -62,10 +63,6 @@ const EditProfile = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    const preValue = {
-      ...customerToEdit
-    }
-    console.log(preValue);
     if (!selectedFile) {
       editProfile()
         .then((res) => {
@@ -95,10 +92,6 @@ const EditProfile = () => {
             photoUrl: res.data.filePath,
           })
         );
-        setCustomerToEdit({
-          ...preValue,
-          // photoUrl: photoUrl,
-        });
         editProfile()
           .then((res) => {
             dispatch(
