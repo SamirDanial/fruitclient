@@ -20,6 +20,8 @@ import {
   Cart,
   AdminPanel,
   CategoryManagement,
+  CreateCategory,
+  EditCategory,
   CustomerManagement,
   DelieveryManagement,
   EmployeeManagement,
@@ -100,6 +102,8 @@ function App() {
             <Route element={<AdminRoutes isAdminMan={isAdminRole} />}>
               <Route path="/adminPanel" element={<AdminPanel />} />
               <Route path="/categoryManagement" element={<CategoryManagement />} />
+              <Route path="/createCategory" element={<CreateCategory />} />
+              <Route path="/editCategory/:id" element={<EditCategory />} />
               <Route path="/CustomerManagement" element={<CustomerManagement />} />
               <Route path="/delieveryManagement" element={<DelieveryManagement />} />
               <Route path="/employeeManagement" element={<EmployeeManagement />} />

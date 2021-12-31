@@ -137,6 +137,7 @@ const CreateProfile = () => {
                   value={customerToCreate.name}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Name"
+                  required
                 />
                 <input
                   type="text"
@@ -144,6 +145,7 @@ const CreateProfile = () => {
                   value={customerToCreate.lastName}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Last Name"
+                  required
                 />
 
                 <input type="file" onChange={onSelectPhoto} />
@@ -153,6 +155,7 @@ const CreateProfile = () => {
                   value={customerToCreate.phoneNumber}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Phone Number"
+                  required
                 />
                 <input
                   type="text"
@@ -167,6 +170,7 @@ const CreateProfile = () => {
                   value={customerToCreate.physicalAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Physical Address"
+                  required
                 />
 
                 <input type="submit" value="Saved" className="btn" />

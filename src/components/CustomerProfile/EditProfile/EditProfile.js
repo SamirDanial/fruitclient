@@ -127,6 +127,7 @@ const EditProfile = () => {
                   value={customerToEdit.name}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Name"
+                  required
                 />
                 <input
                   type="text"
@@ -134,6 +135,7 @@ const EditProfile = () => {
                   value={customerToEdit.lastName}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Last Name"
+                  required
                 />
 
                 <input type="file" onChange={onSelectPhoto} />
@@ -143,6 +145,7 @@ const EditProfile = () => {
                   value={customerToEdit.phoneNumber}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Phone Number"
+                  required
                 />
                 <input
                   type="text"
@@ -157,6 +160,7 @@ const EditProfile = () => {
                   value={customerToEdit.physicalAddress}
                   onChange={(e) => collectFormData(e)}
                   placeholder="Physical Address"
+                  required
                 />
 
                 <input type="submit" value="Saved" className="btn" />

@@ -1,23 +1,25 @@
-export {default as Landing} from './layout/Landing';
-export {default as Navbar} from './layout/Navbar';
-export {default as Login} from './auth/Login';
-export {default as Register} from './auth/Register';
-export {default as CustomerProfile} from './CustomerProfile/CustomerProfile';
-export {default as EditProfile} from './CustomerProfile/EditProfile/EditProfile';
-export {default as CreateProfile} from './CustomerProfile/CreateProfile/CreateProfile';
-export {default as Home} from './home/home'
-export {default as Products} from './products/products'
-export {default as About} from './about/about'
-export {default as Contact} from './contact/contact'
-export {default as Footer} from './footer/footer'
-export {default as ProductDetails} from './products/product-details/product_detail';
-export {default as Cart} from './cart/cart';
-export {default as AdminPanel} from './adminPanel/adminPanel';
-export {default as CategoryManagement} from './adminPanel/categoryManagement/categoryManagement'
-export {default as CustomerManagement} from './adminPanel/customerManagement/customerManagement'
-export {default as DelieveryManagement} from './adminPanel/delieveryManagement/delieveryManagement'
-export {default as EmployeeManagement} from './adminPanel/employeeManagement/employeeManagement'
-export {default as InventoryManagement} from './adminPanel/inventoryManagement/inventoryManagement'
-export {default as ProductManagement} from './adminPanel/productManagement/productManagement'
-export {default as SaleManagement} from './adminPanel/saleManagement/saleManagement'
-export {default as VendorManagement} from './adminPanel/vendorManagement/vendorManagement'
+export { default as Landing } from "./layout/Landing";
+export { default as Navbar } from "./layout/Navbar";
+export { default as Login } from "./auth/Login";
+export { default as Register } from "./auth/Register";
+export { default as CustomerProfile } from "./CustomerProfile/CustomerProfile";
+export { default as EditProfile } from "./CustomerProfile/EditProfile/EditProfile";
+export { default as CreateProfile } from "./CustomerProfile/CreateProfile/CreateProfile";
+export { default as Home } from "./home/home";
+export { default as Products } from "./products/products";
+export { default as About } from "./about/about";
+export { default as Contact } from "./contact/contact";
+export { default as Footer } from "./footer/footer";
+export { default as ProductDetails } from "./products/product-details/product_detail";
+export { default as Cart } from "./cart/cart";
+export { default as AdminPanel } from "./adminPanel/adminPanel";
+export { default as CategoryManagement } from "./adminPanel/categoryManagement/categoryManagement";
+export { default as CreateCategory } from "./adminPanel/categoryManagement/createCategory/createCategory";
+export { default as EditCategory } from "./adminPanel/categoryManagement/editCategory/editCategory";
+export { default as CustomerManagement } from "./adminPanel/customerManagement/customerManagement";
+export { default as DelieveryManagement } from "./adminPanel/delieveryManagement/delieveryManagement";
+export { default as EmployeeManagement } from "./adminPanel/employeeManagement/employeeManagement";
+export { default as InventoryManagement } from "./adminPanel/inventoryManagement/inventoryManagement";
+export { default as ProductManagement } from "./adminPanel/productManagement/productManagement";
+export { default as SaleManagement } from "./adminPanel/saleManagement/saleManagement";
+export { default as VendorManagement } from "./adminPanel/vendorManagement/vendorManagement";

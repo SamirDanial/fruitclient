@@ -772,6 +772,11 @@ form a {
 }
 
 .customerTr:hover {
-  background: grey;
-  cursor: pointer;
+  background: lightgreen;
+}
+
+/* Category Page */
+
+.add_category {
+  float: right;
 }
