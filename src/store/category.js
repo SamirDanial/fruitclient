@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  {
-    _id: "",
-    name: "",
-    imageUrl: "",
-    description: "",
-  },
-];
+const initialState = {
+  _id: "",
+  name: "",
+  imageUrl: "",
+  description: "",
+};
 
 const categorySlice = createSlice({
   name: "category",
@@ -16,17 +14,21 @@ const categorySlice = createSlice({
     clearInitialState: (state, action) => {
         state = [];
     },
-    getCategories: (state, action) => {
-      action.payload.categories.forEach((category) => {
-        state.push(category);
-      });
-    },
     updatePhotoUrl: (state, action) => {
-      state[0].imageUrl = action.payload.imageUrl;
+      state.imageUrl = action.payload.imageUrl;
     },
     createCategory: (state, action) => {
-      state.push(action.payload.createCategory);
+      state.name = action.payload.createCategory.name;
+      state.description = action.payload.createCategory.description;
+      state.imageUrl = action.payload.createCategory.imageUrl;
+      state._id = action.payload.createCategory._id;
     },
+    updateCategory: (state, action) => {
+      state.name = action.payload.editCategory.name;
+      state.description = action.payload.editCategory.description;
+      state.imageUrl = action.payload.editCategory.imageUrl;
+      state._id = action.payload.editCategory._id;
+    }
   },
 });
 

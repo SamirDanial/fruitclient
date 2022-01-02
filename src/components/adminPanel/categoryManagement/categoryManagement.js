@@ -19,11 +19,6 @@ const CategoryManagement = () => {
     dispatch(categoryActions.clearInitialState());
     getCategories().then((res) => {
       setCategories(res.data.getCategories.categories);
-      dispatch(
-        categoryActions.getCategories({
-          ...res.data.getCategories,
-        })
-      );
     });
   }, [dispatch, getCategories]);
   return (
@@ -35,7 +30,6 @@ const CategoryManagement = () => {
             <th>Name</th>
             <th>Description</th>
             <th>Edit</th>
-            <th>Delete</th>
             <th>Image</th>
           </tr>
         </thead>
@@ -52,9 +46,6 @@ const CategoryManagement = () => {
                 >
                   Edit
                 </button>
-              </td>
-              <td>
-                <button className="btn">Delete</button>
               </td>
               <td>
                 {category.imageUrl && (

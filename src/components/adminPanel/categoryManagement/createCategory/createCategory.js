@@ -7,7 +7,7 @@ import { categoryActions } from '../../../../store/category';
 import { CREATE_CATEGORY } from '../../../hooks/Category';
 
 const CreateCategory = () => {
-  const imageUrl = useSelector((state) => state.categories.length > 0 && state.categories[0].imageUrl);
+  const imageUrl = useSelector((state) => state.category.imageUrl);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();

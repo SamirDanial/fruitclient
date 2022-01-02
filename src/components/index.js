@@ -21,5 +21,6 @@ export { default as DelieveryManagement } from "./adminPanel/delieveryManagement
 export { default as EmployeeManagement } from "./adminPanel/employeeManagement/employeeManagement";
 export { default as InventoryManagement } from "./adminPanel/inventoryManagement/inventoryManagement";
 export { default as ProductManagement } from "./adminPanel/productManagement/productManagement";
+export { default as CreateProduct } from "./adminPanel/productManagement/createProduct/createProduct";
 export { default as SaleManagement } from "./adminPanel/saleManagement/saleManagement";
 export { default as VendorManagement } from "./adminPanel/vendorManagement/vendorManagement";

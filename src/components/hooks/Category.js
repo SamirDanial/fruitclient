@@ -13,6 +13,17 @@ export const GET_CATEGORIES = gql`
   }
 `;
 
+export const GET_CATEGORY = gql`
+  query getCategory($ID: String!) {
+    getCategory(ID: $ID) {
+      _id
+      name
+      description
+      imageUrl
+    }
+  }
+`;
+
 export const CREATE_CATEGORY = gql`
   mutation createCategory(
     $ID: String
@@ -44,7 +55,12 @@ export const EDIT_CATEGORY = gql`
     $description: String!
   ) {
     editCategory(
-      categoryInput: { ID: $ID, name: $name, imageUrl: $imageUrl, description: $description }
+      categoryInput: {
+        ID: $ID
+        name: $name
+        imageUrl: $imageUrl
+        description: $description
+      }
     ) {
       _id
       imageUrl

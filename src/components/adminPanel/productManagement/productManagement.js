@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
 
 const ProductManagement = () => {
-    return (
-        <div className='adminPanelItem'>
-            <h1>Product Management</h1>
-        </div>
-    )
-}
+  const navigate = useNavigate();
+  return (
+    <div className="adminPanelItem">
+      <div>
+        <button onClick={() => navigate('/createProduct')} className="btn">+ Add Product</button>
+      </div>
+    </div>
+  );
+};
 
-export default ProductManagement
+export default ProductManagement;

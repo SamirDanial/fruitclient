@@ -543,7 +543,7 @@ th:last-child {
 .account-page {
   padding: 50px 0;
   background: radial-gradient(#fff, #ffd6d6);
-  height: 70vh;
+  height: 100%;
 }
 
 .form-container {
@@ -669,15 +669,14 @@ form a {
 /* Admin Panel */
 
 .adminPanel {
-  height: 100vh;
   width: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
 }
 
 .adminComponents {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   padding: 50px 40px;
 }
 
@@ -759,16 +758,12 @@ form a {
 
 .aboutPage, .contactPage {
   height: 70vh;
-  overflow: hidden;
-  overflow-y: scroll;
 }
 
 .adminPanelItem {
   height: 100vh;
   width: 100%;
   padding: 40px 40px;
-  overflow: hidden;
-  overflow-y: scroll;
 }
 
 .customerTr:hover {
@@ -777,6 +772,11 @@ form a {
 
 /* Category Page */
 
-.add_category {
-  float: right;
+/* Create Product */
+
+.createProductSelector, .createProductCategorySelector {
+  width: 260px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 7px;
+  margin: 10px 0;
 }

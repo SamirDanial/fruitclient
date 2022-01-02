@@ -1,56 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import axios from "axios";
 import { categoryActions } from "../../../../store/category";
-import { EDIT_CATEGORY } from "../../../hooks/Category";
+import { EDIT_CATEGORY, GET_CATEGORY } from "../../../hooks/Category";
 
 const EditCategory = () => {
   const params = useParams();
-  const imageUrl = useSelector(
-    (state) => state.categories.length > 0 && state.categories[0].imageUrl
-  );
-  const dispatch = useDispatch();
-  const targetCategory = useSelector(state => state.categories.filter(x => x._id === params.id)[0]);
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
+  const imageUrl = useSelector((state) => state.category.imageUrl);
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [localImage, setLocalImage] = useState(null);
   const [categoryToEdit, setCategoryToEdit] = useState({
-    ID: "",
+    _id: "",
     name: "",
-    imageUrl: "",
     description: "",
+    imageUrl: "",
+  });
+  const [getCategory] = useLazyQuery(GET_CATEGORY, {
+    variables: {
+      ID: params.id,
+    },
   });
 
   const [editCategory] = useMutation(EDIT_CATEGORY, {
     variables: {
-      ...categoryToEdit,
+      ID: categoryToEdit._id,
+      name: categoryToEdit.name,
+      description: categoryToEdit.description,
       imageUrl: imageUrl,
     },
   });
 
   useEffect(() => {
-    setPreviewImage(targetCategory.imageUrl);
-    setCategoryToEdit({
-      ID: targetCategory._id,
-      name: targetCategory.name,
-      imageUrl: localImage ? localImage : targetCategory.imageUrl,
-      description: targetCategory.description,
+    getCategory().then((res) => {
+      setPreviewImage(res.data.getCategory.imageUrl);
+      setCategoryToEdit({
+        ...res.data.getCategory,
+      });
     });
-  }, [imageUrl, previewImage]);
+  }, []);
 
-  useEffect(() => {
-    console.log(categoryToEdit);
-  }, [categoryToEdit]);
-
-  const collectFormData = (e) =>
+  const collectFormData = (e) => {
     setCategoryToEdit({
       ...categoryToEdit,
       [e.target.name]: e.target.value,
     });
+  };
 
   const onSelectPhoto = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -60,21 +60,15 @@ const EditCategory = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    if(!selectedFile) {
-        editCategory()
-          .then((res) => {
-            console.log(res);
-            dispatch(
-              categoryActions.createCategory({
-                ...res.data,
-              })
-            );
-            // navigate("/categoryManagement", { replace: true });
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-          return;
+
+    if (!selectedFile) {
+      editCategory().then((res) => {
+        dispatch(categoryActions.updateCategory({
+          ...res.data
+        }));
+        navigate('/categoryManagement', { replace: true })
+      });
+      return;
     }
     const fd = new FormData();
     fd.append("image", selectedFile, selectedFile.name);
@@ -85,24 +79,17 @@ const EditCategory = () => {
         },
       })
       .then((res) => {
-        // dispatch(
-        //   categoryActions.updatePhotoUrl({
-        //     imageUrl: res.data.filePath,
-        //   })
-        // );
-        editCategory()
-          .then((res) => {
-            console.log(res);
-            dispatch(
-              categoryActions.createCategory({
-                ...res.data,
-              })
-            );
-            // navigate("/categoryManagement", { replace: true });
+        dispatch(
+          categoryActions.updatePhotoUrl({
+            imageUrl: res.data.filePath,
           })
-          .catch((error) => {
-            console.log(error.message);
-          });
+        );
+        editCategory().then((res) => {
+          dispatch(categoryActions.updateCategory({
+            ...res.data
+          }));
+          navigate('/categoryManagement', { replace: true })
+        });
       })
       .catch((error) => {
         console.log(error.message);
@@ -113,12 +100,16 @@ const EditCategory = () => {
     <div className="account-page">
       <div className="container">
         <div className="row">
-          {localImage ? <div className="previewImage">
-              <img src={localImage} alt="" />
-            </div>  : previewImage && (
+          {localImage ? (
             <div className="previewImage">
-              <img src={`http://localhost:5000/${previewImage}`} alt="" />
+              <img src={localImage} alt="" />
             </div>
+          ) : (
+            previewImage && (
+              <div className="previewImage">
+                <img src={`http://localhost:5000/${previewImage}`} alt="" />
+              </div>
+            )
           )}
           <div className="col-2">
             <div className="form-container">

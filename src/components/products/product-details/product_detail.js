@@ -55,7 +55,7 @@ const Product_Details = () => {
               <option>Small</option>
             </select>
             <input type="number" defaultValue={1} />
-            <a href className="btn">
+            <a href="#" className="btn">
               Add To Cart
             </a>
             <h3>
