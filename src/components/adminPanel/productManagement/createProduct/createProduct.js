@@ -16,7 +16,7 @@ const CreateProduct = () => {
     description: "",
     price: 0,
     visible: true,
-    categorie: [],
+    category: "",
     imageUrls: [],
   });
 
@@ -49,13 +49,9 @@ const CreateProduct = () => {
   }, []);
 
   const onSelectCategory = (e) => {
-    setCategoryToSelect([]);
-    setCategoryToSelect(preState => [...preState, preState.push(e.target)])
+    const value = e.target.value;
+    setCategoryToSelect([value]);
   }
-
-  useEffect(() => {
-    console.log(categoryToSelect);
-  }, [categoryToSelect]);
 
   const CollectFormData = (e) => {
     setProductToCreate({ ...productToCreate, [e.target.name]: e.target.value });
@@ -131,7 +127,7 @@ const CreateProduct = () => {
 
                 <select
                   name="category"
-                  value={productToCreate.categorie[0]}
+                  value={productToCreate.category}
                   onChange={(e) => onSelectCategory(e)}
                   className="createProductCategorySelector"
                 >
