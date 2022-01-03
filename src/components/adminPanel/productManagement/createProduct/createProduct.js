@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from 'react-redux';
 import { GET_CATEGORIES } from "../../../hooks/Category";
+import { CREATE_PRODUCT } from "../../../hooks/Product";
 import axios from 'axios';
 
 const CreateProduct = () => {
   const [categories, setCategories] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [categoryToSelect, setCategoryToSelect] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const [photoUrls, setPhotoUrls] = useState([]);
   const [productToCreate, setProductToCreate] = useState({
@@ -14,9 +16,16 @@ const CreateProduct = () => {
     description: "",
     price: 0,
     visible: true,
-    category: "",
-    imageUrls: "",
+    categorie: [],
+    imageUrls: [],
   });
+
+  const [createProduct] = useMutation(CREATE_PRODUCT, {
+    variables: {
+      ...productToCreate
+    },
+    onCompleted: data => data
+  })
 
   const [getCategories] = useLazyQuery(GET_CATEGORIES, {
     onCompleted: (data) => {
@@ -25,14 +34,28 @@ const CreateProduct = () => {
   });
 
   useEffect(() => {
+    setProductToCreate({
+      ...productToCreate,
+      [productToCreate.imageUrls]: photoUrls
+    })
+  }, [photoUrls])
+
+
+
+  useEffect(() => {
     getCategories().then((res) => {
       setCategories(res.data.getCategories.categories);
     });
   }, []);
 
+  const onSelectCategory = (e) => {
+    setCategoryToSelect([]);
+    setCategoryToSelect(preState => [...preState, preState.push(e.target)])
+  }
+
   useEffect(() => {
-    console.log(photoUrls);
-  }, [photoUrls]);
+    console.log(categoryToSelect);
+  }, [categoryToSelect]);
 
   const CollectFormData = (e) => {
     setProductToCreate({ ...productToCreate, [e.target.name]: e.target.value });
@@ -59,6 +82,7 @@ const CreateProduct = () => {
         setPhotoUrls(preValue => [...preValue, res.data.filePath]);
       })
     })
+    console.log(productToCreate);
   };
   return (
     <div className="account-page">
@@ -107,8 +131,8 @@ const CreateProduct = () => {
 
                 <select
                   name="category"
-                  value={productToCreate.category}
-                  onChange={(e) => CollectFormData(e)}
+                  value={productToCreate.categorie[0]}
+                  onChange={(e) => onSelectCategory(e)}
                   className="createProductCategorySelector"
                 >
                   <option value="0">Select Category</option>
