@@ -5,13 +5,14 @@ export const CREATE_PRODUCT = gql`
     $ID: String
     $name: String!
     $description: String!
-    $price: Int
+    $price: Int!
     $visible: Boolean!
     $categoriesID: [String!]!
     $photos: [PhotoInputData]
   ) {
     createProduct(
       productInput: {
+        ID: $ID
         name: $name
         description: $description
         price: $price

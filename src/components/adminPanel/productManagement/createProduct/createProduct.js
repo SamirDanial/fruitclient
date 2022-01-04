@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { GET_CATEGORIES } from "../../../hooks/Category";
 import { CREATE_PRODUCT } from "../../../hooks/Product";
-import axios from 'axios';
+import { productActions } from '../../../../store/product';
+import axios from "axios";
 
 const CreateProduct = () => {
   const [categories, setCategories] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const dispatch = useDispatch();
   const [categoryToSelect, setCategoryToSelect] = useState([]);
   const token = useSelector((state) => state.auth.token);
-  const [photoUrls, setPhotoUrls] = useState([]);
+  const photoUrls = useSelector(state => state.product.photoUrls);
   const [productToCreate, setProductToCreate] = useState({
     name: "",
     description: "",
@@ -22,25 +24,21 @@ const CreateProduct = () => {
 
   const [createProduct] = useMutation(CREATE_PRODUCT, {
     variables: {
-      ...productToCreate
+      name: productToCreate.name,
+      description: productToCreate.description,
+      price: parseInt(productToCreate.price),
+      visible: productToCreate.visible,
+      categoriesID: categoryToSelect,
+      photos: photoUrls,
     },
-    onCompleted: data => data
-  })
+    onCompleted: (data) => data,
+  });
 
   const [getCategories] = useLazyQuery(GET_CATEGORIES, {
     onCompleted: (data) => {
       return data;
     },
   });
-
-  useEffect(() => {
-    setProductToCreate({
-      ...productToCreate,
-      [productToCreate.imageUrls]: photoUrls
-    })
-  }, [photoUrls])
-
-
 
   useEffect(() => {
     getCategories().then((res) => {
@@ -51,34 +49,58 @@ const CreateProduct = () => {
   const onSelectCategory = (e) => {
     const value = e.target.value;
     setCategoryToSelect([value]);
-  }
+    setProductToCreate({
+      ...productToCreate,
+      category: value,
+    });
+  };
 
   const CollectFormData = (e) => {
     setProductToCreate({ ...productToCreate, [e.target.name]: e.target.value });
   };
 
   const onSelectPhotos = (e) => {
-      const files = e.target.files
-        for(let i = 0; i < files.length; i++) {
-            setSelectedFiles(preValue => [...preValue, files[i]]);
-        }
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      setSelectedFiles((preValue) => [...preValue, files[i]]);
+    }
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
-    selectedFiles.forEach(eachFile => {
-        const fd = new FormData();
-    fd.append("image", eachFile, eachFile.name);
-    axios
-      .put("http://localhost:5000/fruit-images", fd, {
-        headers: {
-          "x-auth-token": token,
-        },
-      }).then((res) => {
-        setPhotoUrls(preValue => [...preValue, res.data.filePath]);
-      })
-    })
-    console.log(productToCreate);
+    if (!selectedFiles) {
+      createProduct()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      return;
+    }
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const fd = new FormData();
+      fd.append("image", selectedFiles[i], selectedFiles[i].name);
+      axios
+        .put("http://localhost:5000/fruit-images", fd, {
+          headers: {
+            "x-auth-token": token,
+          },
+        })
+        .then((res) => {
+          dispatch(productActions.updatePhotoUrls({
+            photoUrls: {photoUrl: res.data.filePath, featured: false}
+          }))
+        });
+        if(i === selectedFiles.length - 1) {
+          createProduct().then(res => {
+            console.log(res);
+          }).catch(error => {
+            console.log(error.message);
+          })
+        }
+    }
   };
   return (
     <div className="account-page">
@@ -139,7 +161,11 @@ const CreateProduct = () => {
                   ))}
                 </select>
 
-                <input type="file" onChange={onSelectPhotos} multiple="multiple" />
+                <input
+                  type="file"
+                  onChange={onSelectPhotos}
+                  multiple="multiple"
+                />
 
                 <input type="submit" value="Save" className="btn" />
               </form>
