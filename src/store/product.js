@@ -16,6 +16,9 @@ const productSlice = createSlice({
     reducers: {
         updatePhotoUrls: (state, action) => {
             state.photoUrls.push(action.payload.photoUrls)
+        },
+        clearPhotoUrls: (state, action) => {
+            state.photoUrls = [];
         }
     }
 })

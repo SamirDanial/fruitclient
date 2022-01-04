@@ -1,5 +1,51 @@
 import { gql } from "@apollo/client";
 
+export const GET_PRODUCT = gql`
+  query getProduct($ID: String!) {
+    getProduct(ID: $ID) {
+      _id
+      name
+      description
+      price
+      visible
+      categories {
+        _id
+        name
+        description
+      }
+      photos {
+        _id
+        photoUrl
+        featured
+      }
+    }
+  }
+`;
+
+export const GET_PRODUCTS = gql`
+  query getProducts($PageNumber: Int!, $PageSize: Int!) {
+    getProducts(PageNumber: $PageNumber, PageSize: $PageSize) {
+      products {
+        _id
+        name
+        description
+        price
+        visible
+        categories {
+          _id
+          name
+        }
+        photos {
+          _id
+          photoUrl
+          featured
+        }
+      }
+      allProductsCount
+    }
+  }
+`;
+
 export const CREATE_PRODUCT = gql`
   mutation createProduct(
     $ID: String

@@ -22,5 +22,6 @@ export { default as EmployeeManagement } from "./adminPanel/employeeManagement/e
 export { default as InventoryManagement } from "./adminPanel/inventoryManagement/inventoryManagement";
 export { default as ProductManagement } from "./adminPanel/productManagement/productManagement";
 export { default as CreateProduct } from "./adminPanel/productManagement/createProduct/createProduct";
+export {default as EditProduct} from './adminPanel/productManagement/editProduct/editProduct';
 export { default as SaleManagement } from "./adminPanel/saleManagement/saleManagement";
 export { default as VendorManagement } from "./adminPanel/vendorManagement/vendorManagement";

@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { GET_CATEGORIES } from "../../../hooks/Category";
 import { CREATE_PRODUCT } from "../../../hooks/Product";
-import { productActions } from '../../../../store/product';
+import { productActions } from "../../../../store/product";
 import axios from "axios";
 
 const CreateProduct = () => {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const dispatch = useDispatch();
   const [categoryToSelect, setCategoryToSelect] = useState([]);
+  const [visibality, setVisibality] = useState(true);
   const token = useSelector((state) => state.auth.token);
-  const photoUrls = useSelector(state => state.product.photoUrls);
+  const [featureName, setFeatureName] = useState("");
+  const [previewImages, setPreviewImages] = useState([]);
+  const photoUrls = useSelector((state) => state.product.photoUrls);
   const [productToCreate, setProductToCreate] = useState({
     name: "",
     description: "",
     price: 0,
-    visible: true,
+    visible: visibality,
     category: "",
     imageUrls: [],
   });
@@ -27,7 +32,7 @@ const CreateProduct = () => {
       name: productToCreate.name,
       description: productToCreate.description,
       price: parseInt(productToCreate.price),
-      visible: productToCreate.visible,
+      visible: visibality,
       categoriesID: categoryToSelect,
       photos: photoUrls,
     },
@@ -44,7 +49,7 @@ const CreateProduct = () => {
     getCategories().then((res) => {
       setCategories(res.data.getCategories.categories);
     });
-  }, []);
+  }, [getCategories]);
 
   const onSelectCategory = (e) => {
     const value = e.target.value;
@@ -63,8 +68,40 @@ const CreateProduct = () => {
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       setSelectedFiles((preValue) => [...preValue, files[i]]);
+      const f = e.target.files[i];
+      setPreviewImages((preState) => [
+        ...preState,
+        {
+          imagePath: URL.createObjectURL(f),
+          featured: i === 0 ? true : false,
+          name: f.name,
+        },
+      ]);
     }
   };
+
+  const changeFeaturedImage = (e) => {
+    setFeatureName(e);
+    const newArray = [...previewImages];
+    const index = newArray.findIndex((x) => x.name === e);
+    newArray.forEach((array) => {
+      array.featured = false;
+    });
+    newArray[index].featured = true;
+    setPreviewImages(newArray);
+  };
+
+  useEffect(() => {
+    if (photoUrls.length === selectedFiles.length && photoUrls.length > 0) {
+      createProduct()
+        .then((_) => {
+          navigate("/productManagement", { replace: true });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, [photoUrls, selectedFiles, createProduct, navigate]);
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
@@ -72,6 +109,7 @@ const CreateProduct = () => {
       createProduct()
         .then((res) => {
           console.log(res);
+          navigate("/productManagement", { replace: true });
         })
         .catch((error) => {
           console.log(error.message);
@@ -89,23 +127,44 @@ const CreateProduct = () => {
           },
         })
         .then((res) => {
-          dispatch(productActions.updatePhotoUrls({
-            photoUrls: {photoUrl: res.data.filePath, featured: false}
-          }))
+          const path = res.data.filePath;
+          dispatch(
+            productActions.updatePhotoUrls({
+              photoUrls: {
+                photoUrl: path,
+                featured:
+                  featureName !== ""
+                    ? path.includes(featureName)
+                    : i === 0
+                    ? true
+                    : false,
+              },
+            })
+          );
         });
-        if(i === selectedFiles.length - 1) {
-          createProduct().then(res => {
-            console.log(res);
-          }).catch(error => {
-            console.log(error.message);
-          })
-        }
     }
   };
   return (
     <div className="account-page">
       <div className="container">
         <div className="row">
+          {previewImages &&
+            previewImages.map((image, index) => (
+              <div key={index} className="previewImage">
+                <img src={image.imagePath} alt="" />
+                <div
+                  style={{
+                    background: image.featured ? "lightgreen" : "",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => changeFeaturedImage(image.name)}
+                >
+                  <span>Featured</span>
+                </div>
+              </div>
+            ))}
           <div className="col-2">
             <div className="form-container">
               <div className="form-btn">
@@ -138,8 +197,10 @@ const CreateProduct = () => {
 
                 <select
                   name="visible"
-                  value={productToCreate.visible}
-                  onChange={(e) => CollectFormData(e)}
+                  value={visibality}
+                  onChange={(e) =>
+                    setVisibality(e.target.value === "true" ? true : false)
+                  }
                   className="createProductSelector"
                 >
                   <option value="0">Select Visibility</option>

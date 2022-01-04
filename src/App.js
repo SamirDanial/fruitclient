@@ -28,6 +28,7 @@ import {
   InventoryManagement,
   ProductManagement,
   CreateProduct,
+  EditProduct,
   SaleManagement,
   VendorManagement
 } from "./components";
@@ -111,6 +112,7 @@ function App() {
               <Route path="/inventoryManagement" element={<InventoryManagement />} />
               <Route path="/productManagement" element={<ProductManagement />} />
               <Route path="/createProduct" element={<CreateProduct />} />
+              <Route path="/editProduct/:id" element={<EditProduct />} />
               <Route path="/saleManagement" element={<SaleManagement />} />
               <Route path="/vendorManagement" element={<VendorManagement />} />
             </Route>
