@@ -9,7 +9,7 @@ const ProductManagement = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize] = useState(20);
   const [allProducts, setAllProducts] = useState(0);
   const [pages, setPages] = useState([]);
   const [products, setProducts] = useState([]);

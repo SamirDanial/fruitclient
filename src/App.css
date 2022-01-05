@@ -15,6 +15,10 @@ body {
   background: radial-gradient(#fff, #ffd6d6);
 }
 
+#root {
+  height: 100vh;
+}
+
 .container {
   max-width: 1300px;
   margin: auto;
@@ -779,4 +783,25 @@ form a {
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 7px;
   margin: 10px 0;
+}
+
+.deleteImage {
+  position: absolute;
+  background: lightblue;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: red;
+  font-weight: bold;
+  top: -15px;
+  left: -16px;
+  cursor: pointer;
+}
+
+.deleteImage:hover {
+  background: red;
+  color: lightblue
 }
