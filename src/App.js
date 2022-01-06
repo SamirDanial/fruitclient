@@ -14,6 +14,7 @@ import {
   Home,
   Products,
   About,
+  CategorisedProduct,
   Contact,
   Footer,
   ProductDetails,
@@ -92,8 +93,9 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/categorisedProduct/:id" element={<CategorisedProduct />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/product_detail" element={<ProductDetails />} />
+            <Route path="/product_detail/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
               <Route path="/userprofile" element={<CustomerProfile />} />

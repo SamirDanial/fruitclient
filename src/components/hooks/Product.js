@@ -22,6 +22,32 @@ export const GET_PRODUCT = gql`
   }
 `;
 
+export const GET_PRODUCTS_BY_CATEGORY = gql`
+  query getProductByCategory($ID: String!) {
+    getProductByCategory(ID: $ID) {
+      products {
+        _id
+        name
+        description
+        price
+        visible
+        categories {
+          _id
+          name
+          description
+          imageUrl
+        }
+        photos {
+          _id
+          photoUrl
+          featured
+        }
+      }
+      allProductsCount
+    }
+  }
+`;
+
 export const GET_PRODUCTS = gql`
   query getProducts($PageNumber: Int!, $PageSize: Int!) {
     getProducts(PageNumber: $PageNumber, PageSize: $PageSize) {
@@ -48,12 +74,12 @@ export const GET_PRODUCTS = gql`
 
 export const ADD_IMAGE_TO_PRODUCT = gql`
   mutation addImageToProduct($ID: String!, $photoInput: PhotoInputData) {
-  addImageToProduct(ID: $ID, photoInput: $photoInput) {
-    _id,
-    photoUrl,
-    featured
+    addImageToProduct(ID: $ID, photoInput: $photoInput) {
+      _id
+      photoUrl
+      featured
+    }
   }
-}
 `;
 
 export const EDIT_PRODUCT = gql`

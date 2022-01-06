@@ -12,7 +12,7 @@ body {
 }
 
 .header {
-  background: radial-gradient(#fff, #ffd6d6);
+  background: radial-gradient(#88c74a, #88c74a);
 }
 
 #root {
@@ -99,7 +99,7 @@ p {
 .btn {
   display: inline-block;
   color: white;
-  background: #ff523b;
+  background: #88c74a;
   padding: 8px 30px;
   margin: 30px 0;
   border-radius: 30px;
@@ -163,7 +163,7 @@ p {
   width: 80px;
   height: 5px;
   border-radius: 5px;
-  background: #ff523b;
+  background: #88c74a;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -179,7 +179,7 @@ h4 {
 }
 
 .rating .fa {
-  color: #ff523b
+  color: #88c74a
 }
 
 .col-4:hover {
@@ -223,7 +223,7 @@ small {
 }
 .fa.fa-quote-left {
   font-size: 34px;
-  color: #ff523b;
+  color: #88c74a;
 }
 
 .col-3 p {
@@ -399,7 +399,7 @@ margin: 100px auto;
 }
 
 select {
-  border: 1px solid #ff523b;
+  border: 1px solid #88c74a;
   padding: 5px;
 }
 
@@ -413,7 +413,7 @@ select:focus {
 
 .page-btn span {
   display: inline-block;
-  border: 1px solid #ff523b;
+  border: 1px solid #88c74a;
   margin-left: 10px;
   width: 40px;
   height: 40px;
@@ -423,7 +423,7 @@ select:focus {
 }
 
 .page-btn span:hover {
-  background: #ff523b;
+  background: #88c74a;
   color: white;
 }
 
@@ -459,7 +459,7 @@ select:focus {
   padding-left: 10px;
   font-size: 20px;
   margin-right: 10px;
-  border: 1px solid #ff523b;
+  border: 1px solid #88c74a;
 }
 
 input:focus {
@@ -467,7 +467,7 @@ input:focus {
 }
 
 .single_product .fa {
-  color: #ff523b;
+  color: #88c74a;
   margin-left: 20px;
 }
 
@@ -500,7 +500,7 @@ th {
   text-align: left;
   padding: 5px;
   color: white;
-  background: #ff523b;
+  background: #88c74a;
   font-weight: normal;
 }
 
@@ -515,7 +515,7 @@ td input {
 }
 
 td a {
-  color: #ff523b;
+  color: #88c74a;
   font-size: 12px;
 }
 
@@ -531,7 +531,7 @@ td img {
 }
 
 .total-price table {
-  border-top: 3px solid #ff523b;
+  border-top: 3px solid #88c74a;
   width: 100%;
   max-width: 400px;
 }
@@ -621,7 +621,7 @@ form a {
 #Indicator {
   width: 100px;
   border: none;
-  background: #ff523b;
+  background: #88c74a;
   height: 3px;
   margin-top: 8px;
   transform: translateX(100px);
@@ -663,8 +663,6 @@ form a {
 .navImage {
   height: 50px;
   width: 50px;
-  border: 3px solid silver;
-  border-radius: 50%;
   margin-top: 5px;
   position: absolute;
 }
@@ -681,6 +679,7 @@ form a {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  height: 62.7vh;
   padding: 50px 40px;
 }
 
@@ -744,7 +743,7 @@ form a {
 }
 
 .adminComponents > div:nth-child(7) {
-  background: #ff523b;
+  background: #88c74a;
 }
 
 .adminComponents > div:nth-child(7):hover {
@@ -804,4 +803,27 @@ form a {
 .deleteImage:hover {
   background: red;
   color: lightblue
+}
+
+.eachCategory {
+  height: 400px;
+  background: #abd385;
+  border-radius: 5px;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.eachCategory:hover {
+  background: orange;
+}
+.eachProduct {
+  height: 330px;
+  background: olive;
+  border-radius: 5px;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.eachProduct:hover {
+  background: orange;
 }

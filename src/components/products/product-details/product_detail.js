@@ -1,20 +1,47 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import { useParams } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+import { GET_PRODUCT } from '../../hooks/Product';
 
 const Product_Details = () => {
+  const params = useParams();
+  const [featuredImage, setFeaturedImage] = useState('');
+  const [product, setProduct] = useState();
+  const [getProductById] = useLazyQuery(GET_PRODUCT, {
+    variables: {
+      ID: params.id
+    },
+    onCompleted: data => data
+  })
+
+  useEffect(() => {
+    getProductById().then(res => {
+      setProduct(res.data.getProduct);
+      const fm = res.data.getProduct.photos && res.data.getProduct.photos.find(x => x.featured === true).photoUrl;
+      setFeaturedImage(fm);
+    }).catch(error => {
+      console.log(error.message);
+    })
+  }, [])
   return (
     <div>
       <div className="small-container single_product">
         <div className="row">
           <div className="col-2">
-            <img src={require('../../../img/gallery-1.jpg')} width="100%" id="productImg" alt="" />
+            <img src={`http://localhost:5000/${featuredImage}`} width="100%" id="productImg" alt="" />
             <div className="small-img-row">
-              <div className="small-img-col">
-                <img
-                  className="small-img"
-                  src={require('../../../img/gallery-1.jpg')}
-                  width="100%"
-                  alt=""
-                />
+              {
+                product && product.photos.map((photo) => (
+                  <img
+                    className="small-img"
+                    src={`http://localhost:5000/${photo.photoUrl}`}
+                    onClick={() => setFeaturedImage(photo.photoUrl)}
+                    width="20%"
+                    alt=""
+                  />
+                ))
+              }
+              {/* <div className="small-img-col">
               </div>
               <div className="small-img-col">
                 <img
@@ -39,21 +66,21 @@ const Product_Details = () => {
                   width="100%"
                   alt=""
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-2">
-            <p>Home / T-Shirt</p>
-            <h1>Red Printed T-Shirt by HRX</h1>
-            <h4>$50.00</h4>
-            <select>
+            <p>Home / {product && product.name}</p>
+            <h1>{product && product.description}</h1>
+            <h4>PKR{product && product.price}</h4>
+            {/* <select>
               <option>Select Size</option>
               <option>XXL</option>
               <option>XL</option>
               <option>Large</option>
               <option>Medium</option>
               <option>Small</option>
-            </select>
+            </select> */}
             <input type="number" defaultValue={1} />
             <a href="#" className="btn">
               Add To Cart
@@ -69,13 +96,13 @@ const Product_Details = () => {
           </div>
         </div>
       </div>
-      <div className="small-container">
+      {/* <div className="small-container">
         <div className="row row-2">
           <h2>Related Products</h2>
           <p>View More</p>
         </div>
-      </div>
-      <div className="small-container">
+      </div> */}
+      {/* <div className="small-container">
         <div className="row">
           <div className="col-4">
             <img  src={require('../../../img/product-1.jpg')} alt="" />
@@ -126,7 +153,7 @@ const Product_Details = () => {
             <p>$50.00</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

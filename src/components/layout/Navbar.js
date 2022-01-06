@@ -6,6 +6,7 @@ import { authActions } from "../../store/auth";
 import { customerActions } from "../../store/customer";
 import { useWindowSize } from "../hooks/useWindowSize";
 import cart from "../../img/cart.png";
+import fruitLogo from "../../img/fruitLogo.jpeg";
 
 import menu from "../../img/menu.png";
 
@@ -16,7 +17,8 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const username = useSelector((state) => state.auth.username);
-  const roleName = useSelector((state) => state.auth.roleName) === "Admin" ? true : false;
+  const roleName =
+    useSelector((state) => state.auth.roleName) === "Admin" ? true : false;
   const imageUrl = useSelector((state) => state.customer.photoUrl);
 
   const logout = () => {
@@ -31,13 +33,7 @@ const Navbar = () => {
   let checkAuthenticate = (
     <div className="container">
       <div className="navbar">
-        {imageUrl && (
-          <img
-            className="navImage"
-            src={"http://localhost:5000/" + imageUrl}
-            alt=""
-          />
-        )}
+        {<img className="navImage" src={fruitLogo} alt="" />}
         <nav>
           <ul
             style={{
@@ -83,7 +79,7 @@ const Navbar = () => {
                     className={(linkData) =>
                       linkData.isActive ? "active" : ""
                     }
-                    to={ roleName ? "/adminPanel" :  "/userprofile"}
+                    to={roleName ? "/adminPanel" : "/userprofile"}
                   >
                     {roleName ? "Admin" : username}
                   </NavLink>

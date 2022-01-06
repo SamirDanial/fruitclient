@@ -25,3 +25,4 @@ export { default as CreateProduct } from "./adminPanel/productManagement/createP
 export {default as EditProduct} from './adminPanel/productManagement/editProduct/editProduct';
 export { default as SaleManagement } from "./adminPanel/saleManagement/saleManagement";
 export { default as VendorManagement } from "./adminPanel/vendorManagement/vendorManagement";
+export {default as CategorisedProduct} from './categorisedProduct/categorisedProduct';

@@ -37,6 +37,7 @@ const EditProduct = () => {
     variables: {
       ID: params.id,
     },
+    fetchPolicy: "no-cache"
   });
 
   const [getCategories] = useLazyQuery(GET_CATEGORIES, {

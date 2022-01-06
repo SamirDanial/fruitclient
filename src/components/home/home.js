@@ -1,17 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { MY_PROFILE } from "../hooks/Customer";
 import { customerActions } from "../../store/customer";
 import { useDispatch, useSelector } from "react-redux";
+import { GET_CATEGORIES } from "../hooks/Category";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const isAuth = useSelector((state) => state.auth.authenticated);
+  const navigate = useNavigate();
+  const [categoriesToShow, setCategoriesToShow] = useState([]);
   const dispatch = useDispatch();
   const [query] = useLazyQuery(MY_PROFILE, {
     fetchPolicy: "no-cache",
     onCompleted: (data) => {
       return data;
     },
+  });
+
+  const [getCategories] = useLazyQuery(GET_CATEGORIES, {
+    onCompleted: (data) => data,
   });
 
   useEffect(() => {
@@ -28,6 +36,17 @@ const Home = () => {
       });
     }
   }, [query, dispatch, isAuth]);
+
+  useEffect(() => {
+    getCategories()
+      .then((res) => {
+        const cts = res.data.getCategories.categories;
+        setCategoriesToShow(cts);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
   return (
     <div>
       <div className="header">
@@ -54,7 +73,21 @@ const Home = () => {
       <div className="categories">
         <div className="small-container">
           <div className="row">
-            <div className="col-3">
+            {categoriesToShow.map((category) => (
+              <div key={category._id} className="col-3 eachCategory" onClick={() => navigate(`/categorisedProduct/${category._id}`)}>
+                <img
+                  src={`http://localhost:5000/${category.imageUrl}`}
+                  height="300px"
+                  width="200px"
+                  style={{padding: '20px'}}
+                />
+                <div>
+                  <h1 style={{textAlign: "center"}}>{category.name}</h1>
+                  <p style={{textAlign: "center"}}>{category.description}</p>
+                </div>
+              </div>
+            ))}
+            {/* <div className="col-3">
               <img src={require("../../img/category-1.jpg")} alt="" />
             </div>
             <div className="col-3">
@@ -62,11 +95,11 @@ const Home = () => {
             </div>
             <div className="col-3">
               <img src={require("../../img/category-3.jpg")} alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
-      <div className="small-container">
+      {/* <div className="small-container">
         <h2 className="title">Featured Products</h2>
         <div className="row">
           <div className="col-4">
@@ -219,8 +252,8 @@ const Home = () => {
             <p>$50.00</p>
           </div>
         </div>
-      </div>
-      <div className="offer">
+      </div> */}
+      {/* <div className="offer">
         <div className="small-container">
           <div className="row">
             <div className="col-2">
@@ -243,9 +276,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="testimonial">
+      <div className="testimonial" style={{marginBottom: '20px'}}>
         <div className="small-container">
           <div className="row">
             <div className="col-3">
@@ -306,7 +339,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="brands">
+      {/* <div className="brands">
         <div className="small-container">
           <div className="row">
             <div className="col-5">
@@ -326,7 +359,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -21,7 +21,7 @@ const AdminPanel = () => {
                 <div name="/productManagement" onClick={gotToTargetPage}>
                     <h1 name="/productManagement">Product Management</h1>
                 </div>
-                <div name="/vendorManagement" onClick={gotToTargetPage}>
+                {/* <div name="/vendorManagement" onClick={gotToTargetPage}>
                     <h1 name="/vendorManagement">Vendor Management</h1>
                 </div>
                 <div name="/saleManagement" onClick={gotToTargetPage}>
@@ -35,7 +35,7 @@ const AdminPanel = () => {
                 </div>
                 <div name="/delieveryManagement" onClick={gotToTargetPage}>
                     <h1 name="/delieveryManagement">Deleivery Management</h1>
-                </div>
+                </div> */}
             </div>
         </div>
     )
