@@ -36,7 +36,7 @@ const CategorisedProduct = () => {
         {
             categorisedProducts.map((product) => (
                 <div className="col-4 eachProduct" key={product._id} onClick={() => navigate(`/product_detail/${product._id}`)}>
-                    <img src={`http://localhost:5000/${product.photos[0].photoUrl}`} alt="" />
+                    <img src={`http://localhost:3005/${product.photos[0].photoUrl}`} alt="" />
                     <h4 style={{textAlign: "center", color: 'green', marginTop: '20px'}}>{product.name}</h4>
                     <p style={{textAlign: "center", marginTop: '5px'}}>{product.description}</p>
                 </div>

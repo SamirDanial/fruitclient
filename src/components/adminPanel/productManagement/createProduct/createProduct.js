@@ -121,7 +121,7 @@ const CreateProduct = () => {
       const fd = new FormData();
       fd.append("image", selectedFiles[i], selectedFiles[i].name);
       axios
-        .put("http://localhost:5000/fruit-images", fd, {
+        .put("http://localhost:3005/fruit-images", fd, {
           headers: {
             "x-auth-token": token,
           },

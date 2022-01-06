@@ -79,7 +79,7 @@ const ProductManagement = () => {
                 <td>
                   {product.photos.length > 0 && (
                     <img
-                      src={"http://localhost:5000/" + product.photos[0].photoUrl}
+                      src={"http://localhost:3005/" + product.photos[0].photoUrl}
                       alt=""
                     />
                   )}

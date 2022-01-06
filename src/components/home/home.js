@@ -76,7 +76,7 @@ const Home = () => {
             {categoriesToShow.map((category) => (
               <div key={category._id} className="col-3 eachCategory" onClick={() => navigate(`/categorisedProduct/${category._id}`)}>
                 <img
-                  src={`http://localhost:5000/${category.imageUrl}`}
+                  src={`http://localhost:3005/${category.imageUrl}`}
                   height="300px"
                   width="200px"
                   style={{padding: '20px'}}

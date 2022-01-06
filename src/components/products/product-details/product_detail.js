@@ -28,13 +28,13 @@ const Product_Details = () => {
       <div className="small-container single_product">
         <div className="row">
           <div className="col-2">
-            <img src={`http://localhost:5000/${featuredImage}`} width="100%" id="productImg" alt="" />
+            <img src={`http://localhost:3005/${featuredImage}`} width="100%" id="productImg" alt="" />
             <div className="small-img-row">
               {
                 product && product.photos.map((photo) => (
                   <img
                     className="small-img"
-                    src={`http://localhost:5000/${photo.photoUrl}`}
+                    src={`http://localhost:3005/${photo.photoUrl}`}
                     onClick={() => setFeaturedImage(photo.photoUrl)}
                     width="20%"
                     alt=""
