@@ -43,7 +43,7 @@ const EditCategory = () => {
         ...res.data.getCategory,
       });
     });
-  }, []);
+  }, [getCategory]);
 
   const collectFormData = (e) => {
     setCategoryToEdit({

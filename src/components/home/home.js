@@ -46,7 +46,7 @@ const Home = () => {
       .catch((error) => {
         console.log(error.message);
       });
-  }, []);
+  }, [getCategories]);
   return (
     <div>
       <div className="header">
@@ -80,6 +80,7 @@ const Home = () => {
                   height="300px"
                   width="200px"
                   style={{padding: '20px'}}
+                  alt=""
                 />
                 <div>
                   <h1 style={{textAlign: "center"}}>{category.name}</h1>

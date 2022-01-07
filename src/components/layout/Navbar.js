@@ -13,13 +13,14 @@ import menu from "../../img/menu.png";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const itemsInCart = useSelector((state) => state.cart.totalItemsInCart);
   const [width] = useWindowSize();
   const [toggle, setToggle] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const username = useSelector((state) => state.auth.username);
   const roleName =
     useSelector((state) => state.auth.roleName) === "Admin" ? true : false;
-  const imageUrl = useSelector((state) => state.customer.photoUrl);
+  // const imageUrl = useSelector((state) => state.customer.photoUrl);
 
   const logout = () => {
     dispatch(authActions.logout());
@@ -122,13 +123,18 @@ const Navbar = () => {
             )}
           </ul>
         </nav>
-        <img
-          src={cart}
-          onClick={() => navigate("/cart")}
-          width="30px"
-          height="30px"
-          alt=""
-        />
+        <div style={{position: "relative"}}>
+          { itemsInCart > 0 && <span style={{ position: "absolute", top: "20px", left: "20px" ,background: "red", color: "white", padding: "3px", borderRadius: "50%", fontSize: "10px"}}>
+            {itemsInCart}
+          </span>}
+          <img
+            src={cart}
+            onClick={() => navigate("/cart")}
+            width="30px"
+            height="30px"
+            alt=""
+          />
+        </div>
         <img src={menu} className="menu-icon" alt="" onClick={toggleMenu} />
       </div>
     </div>

@@ -827,3 +827,24 @@ form a {
 .eachProduct:hover {
   background: orange;
 }
+
+.nCartBtn {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nCartBtn button {
+  padding: 10px;
+  background: #88c74a;
+  border: none;
+  border-radius: 5px;
+}
+
+.nCartBtn button:active {
+  background: orange;
+}
+
+.nCartBtn button:focus {
+  background: orange;
+}

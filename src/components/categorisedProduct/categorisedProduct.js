@@ -19,7 +19,7 @@ const CategorisedProduct = () => {
         }).catch((error) => {
             console.log(error.message);
         })
-    }, [])
+    }, [getProductsByCategory])
   return (
     <div className="small-container">
       <div className="row row-2">

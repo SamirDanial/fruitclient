@@ -4,7 +4,7 @@ import { GET_CUSTOMERS } from "../../hooks/Customer";
 
 const CustomerManagement = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize] = useState(10);
   const [allCustomers, setAllCustomers] = useState(0);
   const [pages, setPages] = useState([]);
   const [customers, setCustomers] = useState([]);
