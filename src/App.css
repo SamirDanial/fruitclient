@@ -132,6 +132,15 @@ p {
 }
 
 .small-container {
+  height: 100vh;
+  max-width: 1080px;
+  margin: auto;
+  padding: 0 25px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.small-container2 {
   max-width: 1080px;
   margin: auto;
   padding: 0 25px;
@@ -675,6 +684,7 @@ form a {
 }
 
 .adminComponents {
+  height: 100vh !important;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -817,10 +827,11 @@ form a {
   background: orange;
 }
 .eachProduct {
-  height: 330px;
+  height: 390px;
   background: olive;
   border-radius: 5px;
   transition: 0.5s ease;
+  margin: 5px 5px;
   cursor: pointer;
 }
 

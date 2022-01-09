@@ -87,7 +87,7 @@ const CreateProfile = () => {
     const fd = new FormData();
     fd.append("image", selectedFile, selectedFile.name);
     axios
-      .put("http://localhost:3005/fruit-images", fd, {
+      .put("http://localhost:5000/fruit-images", fd, {
         headers: {
           "x-auth-token": token,
         },

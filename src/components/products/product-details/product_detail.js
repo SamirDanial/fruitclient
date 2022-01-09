@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../../hooks/Product";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { cartActions } from '../../../store/cart';
 
 const Product_Details = () => {
@@ -36,11 +36,11 @@ const Product_Details = () => {
   }
   return (
     <div>
-      <div className="small-container single_product">
+      <div className="small-container2 single_product">
         <div className="row">
           <div className="col-2">
-            <img
-              src={`http://localhost:3005/${featuredImage}`}
+             <img
+              src={featuredImage && `http://localhost:5000/${featuredImage}`}
               width="100%"
               id="productImg"
               alt=""
@@ -51,7 +51,7 @@ const Product_Details = () => {
                   <img
                     key={index}
                     className="small-img"
-                    src={`http://localhost:3005/${photo.photoUrl}`}
+                    src={`http://localhost:5000/${photo.photoUrl}`}
                     onClick={() => setFeaturedImage(photo.photoUrl)}
                     width="20%"
                     alt=""

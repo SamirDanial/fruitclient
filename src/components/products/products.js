@@ -1,176 +1,91 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useLazyQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { GET_PRODUCTS } from "../hooks/Product";
+import { cartActions } from '../../store/cart';
 
 const Products = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [pageSize] = useState(20);
+  const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pages, setPages] = useState([]);
+  const [allProducts, setAllProducts] = useState();
+  const [products, setProducts] = useState([]);
+  const [getProducts] = useLazyQuery(GET_PRODUCTS, {
+    variables: {
+      PageSize: pageSize,
+      PageNumber: pageNumber,
+    },
+    onCompleted: (data) => data,
+  });
+
+  useEffect(() => {
+    getProducts()
+      .then((res) => {
+        setAllProducts(res.data.getProducts.allProductsCount);
+        setProducts(res.data.getProducts.products);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [pageNumber]);
+
+  const goToNewPage = (e) => {
+    let targetNumber = e.target;
+    const number = targetNumber.getAttribute("name");
+    setPageNumber(parseInt(number));
+  };
+
+  useEffect(() => {
+    if (allProducts > pageSize) {
+      let pagesToCreate = Math.ceil(allProducts / pageSize);
+      for (let i = 0; i < pagesToCreate; i++) {
+        setPages((preValues) => [...preValues, <h1>Hi</h1>]);
+      }
+    }
+  }, [allProducts, pageSize]);
   return (
-    <div className="small-container">
-      <div className="row row-2">
-        <h2>All Products</h2>
-        <select>
-          <option>Default Sorting</option>
-          <option>Sort by price</option>
-          <option>Sort by popularity</option>
-          <option>Sort by rating</option>
-          <option>Sort by sale</option>
-        </select>
-      </div>
+    <div className="small-container2" style={{ marginTop: "50px" }}>
       <div className="row">
-        <div className="col-4" onClick={() => navigate('/product_detail')}>
-          <img src={require('../../img/product-1.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
+        {products.map((product, index) => (
+          <div
+            key={index}
+            className="col-4 eachProduct"
+          >
+            <img
+              src={`http://localhost:5000/${
+                product.photos.find((x) => x.featured === true).photoUrl
+              }`}
+              onClick={() => navigate(`/product_detail/${product._id}`)}
+              alt=""
+            />
+            <h4>{product.name}</h4>
+            <div className="rating">
+              <i className="fa fa-star" />
+              <i className="fa fa-star" />
+              <i className="fa fa-star" />
+              <i className="fa fa-star" />
+              <i className="fa fa-star-o" />
+            </div>
+            <p>{product.price}</p>
+            <div style={{textAlign: "center"}}>
+              <button onClick={() => dispatch(cartActions.addToCart({item: product}))} className="btn" style={{cursor: "pointer"}}>
+                Add To Cart
+              </button>
+            </div>
           </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-2.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-half-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-3.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-4.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
-          <img src={require('../../img/product-5.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-6.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-half-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-7.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-8.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
-          <img src={require('../../img/product-9.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-10.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-half-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-11.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
-        <div className="col-4">
-          <img src={require('../../img/product-12.jpg')} alt="" />
-          <h4>Red Printed T-Shirt</h4>
-          <div className="rating">
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star" />
-            <i className="fa fa-star-o" />
-          </div>
-          <p>$50.00</p>
-        </div>
+        ))}
       </div>
       <div className="page-btn">
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>→</span>
+        {pages.map((page, index) => {
+          return (
+            <span key={index} name={index + 1} onClick={goToNewPage}>
+              {index + 1}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

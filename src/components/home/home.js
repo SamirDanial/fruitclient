@@ -71,12 +71,12 @@ const Home = () => {
         </div>
       </div>
       <div className="categories">
-        <div className="small-container">
+        <div className="small-container2">
           <div className="row">
             {categoriesToShow.map((category) => (
               <div key={category._id} className="col-3 eachCategory" onClick={() => navigate(`/categorisedProduct/${category._id}`)}>
                 <img
-                  src={`http://localhost:3005/${category.imageUrl}`}
+                  src={`http://localhost:5000/${category.imageUrl}`}
                   height="300px"
                   width="200px"
                   style={{padding: '20px'}}
@@ -280,7 +280,7 @@ const Home = () => {
       </div> */}
 
       <div className="testimonial" style={{marginBottom: '20px'}}>
-        <div className="small-container">
+        <div className="small-container2">
           <div className="row">
             <div className="col-3">
               <i className="fa fa-quote-left"></i>

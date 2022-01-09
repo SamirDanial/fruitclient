@@ -18,29 +18,30 @@ const cartSlice = createSlice({
         addToCart: (state, action) => {
             const existingItem = state.itemsInCart.find(x => x._id === action.payload.item._id);
             if(existingItem){
-                existingItem.totalPriceForThis = existingItem.totalPriceForThis || existingItem.price;
                 existingItem.totalPriceForThis =  existingItem.totalPriceForThis + existingItem.price;
-                existingItem.quantity = existingItem.quantity || 1;
                 existingItem.quantity++;
             } else {
-                state.itemsInCart.push(action.payload.item);
+                const item = {...action.payload.item, quantity: 1, totalPriceForThis: action.payload.item.price};
+                state.itemsInCart.push(item);
             }
             state.totalItemsInCart = state.totalItemsInCart + 1;
             state.totalPrice = state.totalPrice + action.payload.item.price;
         },
         removeSingleItem: (state, action) => {
             const existingItem = state.itemsInCart.find(x => x._id === action.payload.item._id);
-            if (existingItem.quantity > 1) {
+            if (existingItem.quantity > 0) {
                 existingItem.quantity--;
                 existingItem.totalPriceForThis = existingItem.totalPriceForThis - existingItem.price;
-            } else {
-                existingItem.quantity--;
-                existingItem.totalPriceForThis = existingItem.totalPriceForThis - existingItem.price;
-                state.itemsInCart = state.itemsInCart.filter(x => x._id !== action.payload._id);
             }
+            state.totalItemsInCart--;
+            state.totalPrice = state.totalPrice - action.payload.item.price;
         },
         removeTotalItem: (state, action) => {
-
+            const itemsToRemove = state.itemsInCart.filter(x => x._id === action.payload.item._id)[0];
+            state.totalItemsInCart = state.totalItemsInCart - itemsToRemove.quantity;
+            state.totalPrice = state.totalPrice - itemsToRemove.totalPriceForThis;
+            const existingItemsInCart = state.itemsInCart.filter(x => x._id !== action.payload.item._id);
+            state.itemsInCart = existingItemsInCart;
         }
     }
 })
