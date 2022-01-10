@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { GET_PRODUCTS } from "../hooks/Product";
-import { cartActions } from '../../store/cart';
+import { GET_PRODUCTS, AUTO_FILL_NAME_PRODUCT } from "../hooks/Product";
+import { cartActions } from "../../store/cart";
 
 const Products = () => {
   const navigate = useNavigate();
   const [pageSize] = useState(20);
+  const [productName, setProductName] = useState("");
+  const [dataNames, setDataNames] = useState([]);
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const [pages, setPages] = useState([]);
@@ -17,6 +19,12 @@ const Products = () => {
     variables: {
       PageSize: pageSize,
       PageNumber: pageNumber,
+    },
+    onCompleted: (data) => data,
+  });
+  const [autoFill] = useLazyQuery(AUTO_FILL_NAME_PRODUCT, {
+    variables: {
+      Name: productName,
     },
     onCompleted: (data) => data,
   });
@@ -46,18 +54,57 @@ const Products = () => {
       }
     }
   }, [allProducts, pageSize]);
+
+  useEffect(() => {
+    if (productName.length > 2) {
+      autoFill()
+        .then((res) => {
+          setDataNames(res.data.autoFillNameProduct);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, [productName]);
+
+  const fillSeachBox = (e) => {
+    const name = e.target.getAttribute('name');
+    setProductName(name);
+  }
+
+  const doSearch = () => {
+    navigate(`/filter_product/${productName}`)
+  }
+
   return (
     <div className="small-container2" style={{ marginTop: "50px" }}>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Search"
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+        />
+        <button className="btn" onClick={doSearch}>Search</button>
+        <div className="data">
+          {dataNames.length > 0 && productName.length > 2 &&
+            dataNames.map((d, i) => (
+              <div className="data_field" key={i} name={d} onClick={(e) => fillSeachBox(e)}>
+                <span>
+                  {d}
+                </span>
+              </div>
+            ))}
+        </div>
+      </div>
       <div className="row">
         {products.map((product, index) => (
-          <div
-            key={index}
-            className="col-4 eachProduct"
-          >
+          <div key={index} className="col-4 eachProduct">
             <img
               src={`http://localhost:5000/${
                 product.photos.find((x) => x.featured === true).photoUrl
               }`}
+              className="cImage"
               onClick={() => navigate(`/product_detail/${product._id}`)}
               alt=""
             />
@@ -70,8 +117,14 @@ const Products = () => {
               <i className="fa fa-star-o" />
             </div>
             <p>{product.price}</p>
-            <div style={{textAlign: "center"}}>
-              <button onClick={() => dispatch(cartActions.addToCart({item: product}))} className="btn" style={{cursor: "pointer"}}>
+            <div style={{ textAlign: "center" }}>
+              <button
+                onClick={() =>
+                  dispatch(cartActions.addToCart({ item: product }))
+                }
+                className="btn"
+                style={{ cursor: "pointer" }}
+              >
                 Add To Cart
               </button>
             </div>

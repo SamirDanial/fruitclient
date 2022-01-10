@@ -132,7 +132,6 @@ p {
 }
 
 .small-container {
-  height: 100vh;
   max-width: 1080px;
   margin: auto;
   padding: 0 25px;
@@ -332,6 +331,11 @@ margin: 100px auto;
   display: none;
 }
 
+.cImage {
+  width: 300px;
+  height: 200px;
+}
+
 @media (max-width: 800px) {
   nav ul {
       z-index: 10;
@@ -362,6 +366,10 @@ margin: 100px auto;
 }
 
 @media (max-width: 600px) {
+  .eachCategory {
+    margin: 10px 0;
+  }
+
   .row {
       text-align: center;
   }
@@ -828,15 +836,10 @@ form a {
 }
 .eachProduct {
   height: 390px;
-  background: olive;
   border-radius: 5px;
   transition: 0.5s ease;
   margin: 5px 5px;
   cursor: pointer;
-}
-
-.eachProduct:hover {
-  background: orange;
 }
 
 .nCartBtn {
@@ -858,4 +861,55 @@ form a {
 
 .nCartBtn button:focus {
   background: orange;
+}
+
+.search {
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.search input {
+  width: 300px;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search button {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 20px;
+  border-radius: 5px !important;
+  padding: 10px 20px !important;
+}
+
+.search .data {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 30.5%;
+}
+
+.search .data .data_field {
+  text-align: left;
+  padding: 5px;
+}
+
+.search .data .data_field:hover {
+  background: lightblue;
+  cursor: pointer;
+}
+
+.popup{
+  position: absolute;
+  background: rgba(0, 255, 0, 0.8);
+  left: 50%;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.popup button {
+  margin: 10px;
 }

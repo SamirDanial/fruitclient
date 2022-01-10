@@ -28,6 +28,7 @@ import {
   EmployeeManagement,
   InventoryManagement,
   ProductManagement,
+  FilteredProduct,
   CreateProduct,
   EditProduct,
   SaleManagement,
@@ -96,6 +97,7 @@ function App() {
             <Route path="/categorisedProduct/:id" element={<CategorisedProduct />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/product_detail/:id" element={<ProductDetails />} />
+            <Route path="/filter_product/:name" element={<FilteredProduct />} />
             <Route path="/cart" element={<Cart />} />
             <Route element={<ProtectedRoutes isAuthen={isAuth} />}>
               <Route path="/userprofile" element={<CustomerProfile />} />

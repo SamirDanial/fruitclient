@@ -11,6 +11,7 @@ export { default as About } from "./about/about";
 export { default as Contact } from "./contact/contact";
 export { default as Footer } from "./footer/footer";
 export { default as ProductDetails } from "./products/product-details/product_detail";
+export {default as FilteredProduct} from './products/filtered-products/filtered_products';
 export { default as Cart } from "./cart/cart";
 export { default as AdminPanel } from "./adminPanel/adminPanel";
 export { default as CategoryManagement } from "./adminPanel/categoryManagement/categoryManagement";

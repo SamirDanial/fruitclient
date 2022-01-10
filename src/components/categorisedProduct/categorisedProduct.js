@@ -27,7 +27,6 @@ const CategorisedProduct = () => {
   }, [getProductsByCategory]);
   return (
     <div className="small-container2">
-      <div className="row row-2"></div>
       <div className="row">
         {categorisedProducts.map((product) => (
           <div
@@ -38,6 +37,7 @@ const CategorisedProduct = () => {
               src={`http://localhost:5000/${product.photos[0].photoUrl}`}
               alt=""
               onClick={() => navigate(`/product_detail/${product._id}`)}
+              className="cImage"
             />
             <h4
               style={{ textAlign: "center", color: "green", marginTop: "20px" }}

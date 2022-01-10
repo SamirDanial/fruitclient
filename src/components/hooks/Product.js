@@ -1,5 +1,30 @@
 import { gql } from "@apollo/client";
 
+export const FILTER_PRODUCTS_BY_PRODUCT_NAME = gql`
+  query filterByNameProduct($Name: String!) {
+    filterByNameProduct(Name: $Name) {
+      products {
+        _id
+        name
+        description
+        price
+        visible
+        photos {
+          _id
+          photoUrl
+          featured
+        }
+      }
+    }
+  }
+`;
+
+export const AUTO_FILL_NAME_PRODUCT = gql`
+  query autoFillNameProduct($Name: String!) {
+    autoFillNameProduct(Name: $Name)
+  }
+`;
+
 export const GET_PRODUCT = gql`
   query getProduct($ID: String!) {
     getProduct(ID: $ID) {
