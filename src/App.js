@@ -32,7 +32,9 @@ import {
   CreateProduct,
   EditProduct,
   SaleManagement,
-  VendorManagement
+  VendorManagement,
+  OrderManagement,
+  OrderDetail
 } from "./components";
 import ProtectedRoutes from "./protectedRoutes";
 import AdminRoutes from "./adminRoutes";
@@ -119,6 +121,8 @@ function App() {
               <Route path="/editProduct/:id" element={<EditProduct />} />
               <Route path="/saleManagement" element={<SaleManagement />} />
               <Route path="/vendorManagement" element={<VendorManagement />} />
+              <Route path="/orderManagement" element={<OrderManagement />} />
+              <Route path="/orderDetail/:id" element={<OrderDetail />} />
             </Route>
           </Routes>
         </Router>

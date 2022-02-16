@@ -27,3 +27,5 @@ export {default as EditProduct} from './adminPanel/productManagement/editProduct
 export { default as SaleManagement } from "./adminPanel/saleManagement/saleManagement";
 export { default as VendorManagement } from "./adminPanel/vendorManagement/vendorManagement";
 export {default as CategorisedProduct} from './categorisedProduct/categorisedProduct';
+export {default as OrderManagement} from './adminPanel/orderManagement/orderManagement';
+export {default as OrderDetail} from './adminPanel/orderManagement/orderDetail/orderDetail';

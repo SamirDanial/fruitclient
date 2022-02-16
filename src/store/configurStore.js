@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer, customerReducer, categoryReducer, productReducer, cartReducer } from "./index";
+import { authReducer, customerReducer, categoryReducer, productReducer, cartReducer, orderReducer } from "./index";
 
 const store = configureStore({
   reducer: {
@@ -8,6 +8,7 @@ const store = configureStore({
     category: categoryReducer,
     product: productReducer,
     cart: cartReducer,
+    orders: orderReducer
   },
 });
 
