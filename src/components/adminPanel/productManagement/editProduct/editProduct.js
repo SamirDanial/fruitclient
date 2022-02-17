@@ -156,7 +156,7 @@ const EditProduct = () => {
       const fd = new FormData();
       fd.append("image", selectedFile, selectedFile.name);
       axios
-        .put("http://localhost:5000/fruit-images", fd, {
+        .put("/fruit-images", fd, {
           headers: {
             "x-auth-token": token,
           },
@@ -213,7 +213,7 @@ const EditProduct = () => {
                 >
                   X
                 </span>
-                <img src={`http://localhost:5000/${image.photoUrl}`} alt="" />
+                <img src={`/${image.photoUrl}`} alt="" />
                 <div
                   style={{
                     background: image.featured ? "lightgreen" : "",

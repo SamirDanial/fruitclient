@@ -73,7 +73,7 @@ const CustomerManagement = () => {
                 <td>
                   {customer.photoUrl && (
                     <img
-                      src={"http://localhost:5000/" + customer.photoUrl}
+                      src={"/" + customer.photoUrl}
                       alt=""
                     />
                   )}

@@ -101,7 +101,7 @@ const Products = () => {
         {products.map((product, index) => (
           <div key={index} className="col-4 eachProduct">
             <img
-              src={`http://localhost:5000/${
+              src={`/${
                 product.photos.find((x) => x.featured === true).photoUrl
               }`}
               className="cImage"

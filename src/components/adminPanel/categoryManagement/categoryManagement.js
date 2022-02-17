@@ -50,7 +50,7 @@ const CategoryManagement = () => {
               <td>
                 {category.imageUrl && (
                   <img
-                    src={"http://localhost:5000/" + category.imageUrl}
+                    src={"/" + category.imageUrl}
                     alt=""
                   />
                 )}

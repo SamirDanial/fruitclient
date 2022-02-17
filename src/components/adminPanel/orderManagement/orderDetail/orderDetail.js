@@ -60,7 +60,7 @@ const OrderDetail = () => {
       <div style={{ display: "flex" }}>
         <h1>Photo: </h1>
         <img
-          src={`http://localhost:5000/${order.customerId.photoUrl}`}
+          src={`/${order.customerId.photoUrl}`}
           width="150"
           height="130"
         />

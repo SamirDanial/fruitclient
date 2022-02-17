@@ -73,7 +73,7 @@ const EditCategory = () => {
     const fd = new FormData();
     fd.append("image", selectedFile, selectedFile.name);
     axios
-      .put("http://localhost:5000/fruit-images", fd, {
+      .put("/fruit-images", fd, {
         headers: {
           "x-auth-token": token,
         },
@@ -107,7 +107,7 @@ const EditCategory = () => {
           ) : (
             previewImage && (
               <div className="previewImage">
-                <img src={`http://localhost:5000/${previewImage}`} alt="" />
+                <img src={`/${previewImage}`} alt="" />
               </div>
             )
           )}

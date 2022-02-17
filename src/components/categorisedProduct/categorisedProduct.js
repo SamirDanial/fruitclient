@@ -34,7 +34,7 @@ const CategorisedProduct = () => {
             key={product._id}
           >
             <img
-              src={`http://localhost:5000/${product.photos[0].photoUrl}`}
+              src={`/${product.photos[0].photoUrl}`}
               alt=""
               onClick={() => navigate(`/product_detail/${product._id}`)}
               className="cImage"

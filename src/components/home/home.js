@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { MY_PROFILE } from "../hooks/Customer";
 import { customerActions } from "../../store/customer";
+import { Carousel } from 'react-responsive-carousel';
 import { useDispatch, useSelector } from "react-redux";
 import { GET_CATEGORIES } from "../hooks/Category";
 import { useNavigate } from "react-router-dom";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import c1 from '../../img/c1.jpg'
+import c2 from '../../img/c2.jpg'
+import c3 from '../../img/c3.jpg'
 
 const Home = () => {
   const isAuth = useSelector((state) => state.auth.authenticated);
@@ -52,21 +57,17 @@ const Home = () => {
       <div className="header">
         <div className="contaner">
           <div className="row">
-            <div className="col-2">
-              <h1>
-                Give your work <br />a new style!
-              </h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Inventore
-                <br />
-                consectetur nam at tempore
-              </p>
-              <div className="btn">Explore Now &#8594;</div>
-            </div>
-            <div className="col-2">
-              <img src={require("../../img/image1.png")} alt="" />
-            </div>
+          <Carousel autoPlay showThumbs={false} infiniteLoop={true}>
+                <div>
+                    <img src={c1} alt="" className="sliderImage" />
+                </div>
+                <div>
+                    <img src={c2} alt="" className="sliderImage" />
+                </div>
+                <div>
+                    <img src={c3} alt="" className="sliderImage" />
+                </div>
+            </Carousel>
           </div>
         </div>
       </div>
@@ -76,7 +77,7 @@ const Home = () => {
             {categoriesToShow.map((category) => (
               <div key={category._id} className="col-3 eachCategory" onClick={() => navigate(`/categorisedProduct/${category._id}`)}>
                 <img
-                  src={`http://localhost:5000/${category.imageUrl}`}
+                  src={`/${category.imageUrl}`}
                   height="300px"
                   width="200px"
                   style={{padding: '20px'}}

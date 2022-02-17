@@ -26,6 +26,10 @@ body {
   padding-right: 25px;
 }
 
+.sliderImage {
+  height: 500px;
+}
+
 
 
 .navbar {
@@ -570,7 +574,7 @@ th:last-child {
 .form-container {
   background: #fff;
   width: 300px;
-  height: 430px;
+  height: 530px;
   position: relative;
   text-align: center;
   padding: 20px 0;

@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c571933f.css",
+    "main.js": "/static/js/main.ea575489.js",
+    "static/media/c3.jpg": "/static/media/c3.9c002b9e99e020b647e2.jpg",
+    "static/media/fruitLogo.jpeg": "/static/media/fruitLogo.7b69e0f58a161457c3c6.jpeg",
+    "static/media/c2.jpg": "/static/media/c2.92534f22428c438f7ddd.jpg",
+    "static/media/c1.jpg": "/static/media/c1.8a251f64449426c281e9.jpg",
+    "index.html": "/index.html",
+    "main.c571933f.css.map": "/static/css/main.c571933f.css.map",
+    "main.ea575489.js.map": "/static/js/main.ea575489.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c571933f.css",
+    "static/js/main.ea575489.js"
+  ]
+}

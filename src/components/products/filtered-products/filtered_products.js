@@ -32,7 +32,7 @@ const Filtered_Product = () => {
         {filteredProducts.map((product, index) => (
           <div key={index} className="col-4 eachProduct">
             <img
-              src={`http://localhost:5000/${
+              src={`/${
                 product.photos.find((x) => x.featured === true).photoUrl
               }`}
               onClick={() => navigate(`/product_detail/${product._id}`)}

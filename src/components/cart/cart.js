@@ -102,7 +102,7 @@ const Cart = () => {
                     <td>
                       <div className="cart-info">
                         <img
-                          src={`http://localhost:5000/${
+                          src={`/${
                             item.photos.find((x) => x.featured === true)
                               .photoUrl
                           }`}
