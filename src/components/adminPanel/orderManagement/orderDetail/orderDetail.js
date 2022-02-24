@@ -9,7 +9,7 @@ const OrderDetail = () => {
   const dispatch = useDispatch();
   const [statusText, setStatusText] = useState();
   const [ID, setID] = useState();
-  const order = useSelector(state => state.orders.order);
+  const order = useSelector((state) => state.orders.order);
 
   const [approveOrder] = useMutation(CHANGE_APPROVE_STATUS, {
     variables: {
@@ -60,7 +60,7 @@ const OrderDetail = () => {
       <div style={{ display: "flex" }}>
         <h1>Photo: </h1>
         <img
-          src={`/${order.customerId.photoUrl}`}
+          src={`http://localhost:5000/${order.customerId.photoUrl}`}
           width="150"
           height="130"
         />
@@ -94,7 +94,24 @@ const OrderDetail = () => {
         <h1>Total Price: </h1>
         <h1>{order.totalPrice}</h1>
       </div>
-      <button
+      <div style={{ display: "flex" }}>
+        <h1>Customer Private Note: </h1>
+        <h1>{order.pvNote}</h1>
+      </div>
+
+      <select
+        value={order.approved}
+        onChange={(e) => {
+          setStatusText(e.target.value);
+          setID(order._id);
+        }}
+      >
+        <option value="processing">Processing</option>
+        <option value="onHold">On hold</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      {/* <button
         className="btn"
         style={{
           margin: "0 0",
@@ -112,7 +129,7 @@ const OrderDetail = () => {
         }}
       >
         {order.approved === "Approved" ? "Cancel" : "Approve"}
-      </button>
+      </button> */}
     </div>
   );
 };

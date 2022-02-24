@@ -10,6 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
   const [orderProducts, setOrderProducts] = useState([]);
+  const [pvNote, setPvNote] = useState("");
   const [displayPopup, setDisplayPopup] = useState(false);
   const itemsInCart = useSelector((state) => state.cart.itemsInCart);
   const token = useSelector((state) => state.auth.token)
@@ -24,6 +25,7 @@ const Cart = () => {
       products: orderProducts,
       totalQuantity: parseInt(totalItemsInCart),
       totalPrice: parseInt(total),
+      pvNote: pvNote
     }
   })
 
@@ -102,7 +104,7 @@ const Cart = () => {
                     <td>
                       <div className="cart-info">
                         <img
-                          src={`/${
+                          src={`http://localhost:5000/${
                             item.photos.find((x) => x.featured === true)
                               .photoUrl
                           }`}
@@ -143,7 +145,7 @@ const Cart = () => {
             })}
           </tbody>
         </table>
-        <div className="total-price">
+        {itemsInCart.length > 0 && <div className="total-price">
           <table>
             <tbody>
               <tr>
@@ -152,11 +154,14 @@ const Cart = () => {
               </tr>
             </tbody>
           </table>
-        </div>
-        <div>
-          <button className="btn" style={{ cursor: "pointer" }} onClick={() => setDisplayPopup(true)}>
+        </div>}
+        <div style={{display: "flex", justifyContent: "space-around"}}>
+          {itemsInCart.length > 0 && <button className="btn" style={{ cursor: "pointer" }} onClick={() => setDisplayPopup(true)}>
             Order Now
-          </button>
+          </button>}
+          {itemsInCart.length > 0 && <textarea style={{width: "500px", height: "100px"}} value={pvNote} onChange={(e) => setPvNote(e.target.value)} >
+
+          </textarea>}
         </div>
       </div>
     </div>

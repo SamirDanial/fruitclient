@@ -574,7 +574,7 @@ th:last-child {
 .form-container {
   background: #fff;
   width: 300px;
-  height: 530px;
+  height: 595px;
   position: relative;
   text-align: center;
   padding: 20px 0;
@@ -916,4 +916,18 @@ form a {
 
 .popup button {
   margin: 10px;
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 50px 0;
+  gap: 20px;
+}
+
+.bannerSecond {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

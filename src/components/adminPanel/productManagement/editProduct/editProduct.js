@@ -18,6 +18,7 @@ const EditProduct = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const [visibality, setVisibality] = useState(true);
+  const [featured, setFeatured] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageUrlsToSend, setImageUrlsToSend] = useState([]);
   const photoUrls = useSelector((state) => state.product.photoUrls);
@@ -28,8 +29,11 @@ const EditProduct = () => {
     ID: "",
     name: "",
     description: "",
+    unitDescription: "",
+    marketPrice: 0,
     price: 0,
     visible: null,
+    featured: null,
     category: "",
     imageUrls: [],
   });
@@ -51,13 +55,18 @@ const EditProduct = () => {
       ID: productToEdit.ID,
       name: productToEdit.name,
       description: productToEdit.description,
+      unitDescription: productToEdit.unitDescription,
+      marketPrice: parseInt(productToEdit.marketPrice),
       price: parseInt(productToEdit.price),
       visible: visibality,
+      featured: featured,
       categoriesID: [selectedCategory],
       photos: photoUrls,
     },
     fetchPolicy: 'no-cache'
   });
+
+  // unitDescription
 
   const [addPhotoToProduct] = useMutation(ADD_IMAGE_TO_PRODUCT, {
     variables: {
@@ -77,15 +86,20 @@ const EditProduct = () => {
     getProduct()
       .then((res) => {
         const product = res.data.getProduct;
+        console.log(product);
         setVisibality(product.visible);
+        setFeatured(product.featured === null ? false : product.featured);
         setSelectedCategory(product.categories[0]._id);
         setImageUrls(product.photos);
         setProductToEdit({
           ID: product._id,
           name: product.name,
           description: product.description,
+          unitDescription: product.unitDescription,
+          marketPrice: product.marketPrice,
           price: product.price,
           visible: product.visible,
+          featured: product.featured
         });
       })
       .catch((error) => {
@@ -156,7 +170,7 @@ const EditProduct = () => {
       const fd = new FormData();
       fd.append("image", selectedFile, selectedFile.name);
       axios
-        .put("/fruit-images", fd, {
+        .put("http://localhost:5000/fruit-images", fd, {
           headers: {
             "x-auth-token": token,
           },
@@ -187,6 +201,7 @@ const EditProduct = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    console.log(productToEdit);
     editProduct()
       .then((res) => {
         navigate("/productManagement", { replace: true });
@@ -213,7 +228,7 @@ const EditProduct = () => {
                 >
                   X
                 </span>
-                <img src={`/${image.photoUrl}`} alt="" />
+                <img src={`http://localhost:5000/${image.photoUrl}`} alt="" />
                 <div
                   style={{
                     background: image.featured ? "lightgreen" : "",
@@ -250,11 +265,27 @@ const EditProduct = () => {
                 />
 
                 <input
+                  type="text"
+                  name="unitDescription"
+                  value={productToEdit.unitDescription}
+                  onChange={(e) => CollectFormData(e)}
+                  placeholder="Unit Description"
+                />
+
+                <input
                   type="number"
                   name="price"
                   value={productToEdit.price}
                   onChange={(e) => CollectFormData(e)}
                   placeholder="Price"
+                />
+
+                <input
+                  type="number"
+                  name="marketPrice"
+                  value={productToEdit.marketPrice}
+                  onChange={(e) => CollectFormData(e)}
+                  placeholder="Market Price"
                 />
 
                 <select
@@ -268,6 +299,18 @@ const EditProduct = () => {
                   <option value="0">Select Visibility</option>
                   <option value={true}>Visible</option>
                   <option value={false}>Unvisible</option>
+                </select>
+
+                <select
+                  name="featured"
+                  value={featured}
+                  onChange={(e) =>
+                    setFeatured(e.target.value === "true" ? true : false)
+                  }
+                  className="createProductSelector"
+                >
+                  <option value={false}>Not Featured Product</option>
+                  <option value={true}>Featured Product</option>
                 </select>
 
                 <select

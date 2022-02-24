@@ -60,8 +60,10 @@ const EditCategory = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    const fd = new FormData();
 
     if (!selectedFile) {
+      console.log('this is called');
       editCategory().then((res) => {
         dispatch(categoryActions.updateCategory({
           ...res.data
@@ -70,10 +72,10 @@ const EditCategory = () => {
       });
       return;
     }
-    const fd = new FormData();
+    console.log('that is called');
     fd.append("image", selectedFile, selectedFile.name);
     axios
-      .put("/fruit-images", fd, {
+      .put("http://localhost:5000/fruit-images", fd, {
         headers: {
           "x-auth-token": token,
         },
@@ -107,7 +109,7 @@ const EditCategory = () => {
           ) : (
             previewImage && (
               <div className="previewImage">
-                <img src={`/${previewImage}`} alt="" />
+                <img src={`http://localhost:5000/${previewImage}`} alt="" />
               </div>
             )
           )}

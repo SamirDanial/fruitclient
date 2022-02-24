@@ -7,8 +7,11 @@ export const FILTER_PRODUCTS_BY_PRODUCT_NAME = gql`
         _id
         name
         description
+        unitDescription
+        marketPrice
         price
         visible
+        featured
         photos {
           _id
           photoUrl
@@ -31,8 +34,11 @@ export const GET_PRODUCT = gql`
       _id
       name
       description
+      unitDescription
+      marketPrice
       price
       visible
+      featured
       categories {
         _id
         name
@@ -54,8 +60,11 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
         _id
         name
         description
+        unitDescription
+        marketPrice
         price
         visible
+        featured
         categories {
           _id
           name
@@ -73,6 +82,33 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
   }
 `;
 
+export const GET_FEATURED_PRODUCTS = gql`
+  query getFeaturedProducts($PageNumber: Int!, $PageSize: Int!) {
+      getFeaturedProducts(PageNumber: $PageNumber, PageSize: $PageSize) {
+        products {
+          _id
+          name
+          description
+          unitDescription
+          marketPrice
+          price
+          visible
+          featured
+          categories {
+            _id
+            name
+          }
+          photos {
+            _id
+            photoUrl
+            featured
+          }
+        }
+        allProductsCount
+    }
+  }
+`;
+
 export const GET_PRODUCTS = gql`
   query getProducts($PageNumber: Int!, $PageSize: Int!) {
     getProducts(PageNumber: $PageNumber, PageSize: $PageSize) {
@@ -80,8 +116,11 @@ export const GET_PRODUCTS = gql`
         _id
         name
         description
+        unitDescription
+        marketPrice
         price
         visible
+        featured
         categories {
           _id
           name
@@ -112,8 +151,11 @@ export const EDIT_PRODUCT = gql`
     $ID: String
     $name: String!
     $description: String!
+    $unitDescription: String!
+    $marketPrice: Int!
     $price: Int!
     $visible: Boolean!
+    $featured: Boolean
     $categoriesID: [String!]!
     $photos: [PhotoInputData]
   ) {
@@ -122,8 +164,11 @@ export const EDIT_PRODUCT = gql`
         ID: $ID
         name: $name
         description: $description
+        unitDescription: $unitDescription
+        marketPrice: $marketPrice
         price: $price
         visible: $visible
+        featured: $featured
         categoriesID: $categoriesID
         photos: $photos
       }
@@ -131,8 +176,11 @@ export const EDIT_PRODUCT = gql`
       _id
       name
       description
+      unitDescription
+      marketPrice
       price
       visible
+      featured
       categories {
         _id
         name
@@ -153,8 +201,11 @@ export const CREATE_PRODUCT = gql`
     $ID: String
     $name: String!
     $description: String!
+    $unitDescription: String!
+    $marketPrice: Int!
     $price: Int!
     $visible: Boolean!
+    $featured: featured
     $categoriesID: [String!]!
     $photos: [PhotoInputData]
   ) {
@@ -163,8 +214,11 @@ export const CREATE_PRODUCT = gql`
         ID: $ID
         name: $name
         description: $description
+        unitDescription: $unitDescription
+        marketPrice: $marketPrice
         price: $price
         visible: $visible
+        featured: $featured
         categoriesID: $categoriesID
         photos: $photos
       }
@@ -172,6 +226,8 @@ export const CREATE_PRODUCT = gql`
       _id
       name
       description
+      unitDescription
+      marketPrice
       price
       categories {
         _id
@@ -180,6 +236,7 @@ export const CREATE_PRODUCT = gql`
         description
       }
       visible
+      featured
       photos {
         _id
         photoUrl

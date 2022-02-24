@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_ORDERS, CHANGE_APPROVE_STATUS } from "../../hooks/Order";
-import {useDispatch, useSelector} from 'react-redux';
-import { orderActions } from '../../../store/order';
+import { useDispatch, useSelector } from "react-redux";
+import { orderActions } from "../../../store/order";
 
 const OrderManagement = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const OrderManagement = () => {
   const [allOrders, setAllOrders] = useState(0);
   const [statusText, setStatusText] = useState();
   const [ID, setID] = useState();
-  const orders = useSelector(state => state.orders.orders);
+  const orders = useSelector((state) => state.orders.orders);
 
   const [getOrders] = useLazyQuery(GET_ORDERS, {
     variables: {
@@ -29,25 +29,27 @@ const OrderManagement = () => {
   const [approveOrder] = useMutation(CHANGE_APPROVE_STATUS, {
     variables: {
       ID: ID,
-      statusText: statusText
+      statusText: statusText,
     },
-    onCompleted: data => data
-  })
+    onCompleted: (data) => data,
+  });
 
   useEffect(() => {
-    if(ID && statusText) {
-      approveOrder().then(res => {
-        dispatch(orderActions.updateOrder(res.data.approveOrder));
-      }).catch(error => {
-        console.log(error);
-      })
+    if (ID && statusText) {
+      approveOrder()
+        .then((res) => {
+          dispatch(orderActions.updateOrder(res.data.approveOrder));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }, [ID, statusText])
+  }, [ID, statusText]);
 
   useEffect(() => {
     getOrders()
       .then((res) => {
-        dispatch(orderActions.getOrders(res.data.getOrders.orders))
+        dispatch(orderActions.getOrders(res.data.getOrders.orders));
         setAllOrders(res.data.getOrders.allOrderCount);
       })
       .catch((error) => {
@@ -104,21 +106,18 @@ const OrderManagement = () => {
                   {`${date.toDateString() + " - " + date.toLocaleTimeString()}`}
                 </td>
                 <td>
-                  <button
-                    className="btn"
-                    style={{ margin: "0 0", cursor: "pointer", background: order.approved === "Approved" ? 'red': '' }}
-                    onClick={() => {
-                      if (order.approved === "Approved") {
-                        setID(order._id);
-                        setStatusText('Cancelled');
-                      } else {
-                        setID(order._id);
-                        setStatusText('Approved');
-                      }
+                  <select
+                    value={order.approved}
+                    onChange={(e) => {
+                      setStatusText(e.target.value);
+                      setID(order._id);
                     }}
                   >
-                    { order.approved === "Approved" ? 'Cancel' : 'Approve'}
-                  </button>
+                    <option value="processing">Processing</option>
+                    <option value="onHold">On hold</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
                 </td>
                 <td>
                   <button

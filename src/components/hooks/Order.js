@@ -6,6 +6,7 @@ export const CHANGE_APPROVE_STATUS = gql`
       _id,
         address,
         orderCode,
+        pvNote,
         approved,
         customerId {
           _id,
@@ -48,6 +49,7 @@ export const GET_ORDER = gql `
       _id,
         address,
         orderCode,
+        pvNote,
         customerId {
           _id,
           name,
@@ -90,6 +92,7 @@ export const GET_ORDERS = gql`
         address,
         orderCode,
         approved,
+        pvNote,
         customerId {
           _id,
           name,
@@ -132,6 +135,7 @@ export const CREATE_ORDER = gql`
     $address: String
     $products: [OrderProductInputData]
     $totalQuantity: Int
+    $pvNote: String
     $totalPrice: Int
   ) {
     createOrder(
@@ -140,6 +144,7 @@ export const CREATE_ORDER = gql`
         address: $address
         products: $products
         totalQuantity: $totalQuantity
+        pvNote: $pvNote
         totalPrice: $totalPrice
       }
     ) {

@@ -7,19 +7,21 @@ import { cartActions } from "../../store/cart";
 
 const Products = () => {
   const navigate = useNavigate();
+  const [pageNumber, setPageNumber] = useState(1);
   const [pageSize] = useState(20);
+  const [allProducts, setAllProducts] = useState();
+  const [pages, setPages] = useState([]);
+  const [products, setProducts] = useState([]);
   const [productName, setProductName] = useState("");
   const [dataNames, setDataNames] = useState([]);
+  const [showDataNames, setShowDataNames] = useState(true);
   const dispatch = useDispatch();
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pages, setPages] = useState([]);
-  const [allProducts, setAllProducts] = useState();
-  const [products, setProducts] = useState([]);
   const [getProducts] = useLazyQuery(GET_PRODUCTS, {
     variables: {
       PageSize: pageSize,
       PageNumber: pageNumber,
     },
+    // fetchPolicy: "no-cache",
     onCompleted: (data) => data,
   });
   const [autoFill] = useLazyQuery(AUTO_FILL_NAME_PRODUCT, {
@@ -67,14 +69,14 @@ const Products = () => {
     }
   }, [productName]);
 
-  const fillSeachBox = (e) => {
-    const name = e.target.getAttribute('name');
-    setProductName(name);
-  }
+  const fillSeachBox = (d) => {
+    setProductName(d);
+    setShowDataNames(false);
+  };
 
   const doSearch = () => {
-    navigate(`/filter_product/${productName}`)
-  }
+    navigate(`/filter_product/${productName}`);
+  };
 
   return (
     <div className="small-container2" style={{ marginTop: "50px" }}>
@@ -83,53 +85,67 @@ const Products = () => {
           type="text"
           placeholder="Search"
           value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+          onChange={(e) => {
+            setProductName(e.target.value);
+            setShowDataNames(true);
+          }}
         />
-        <button className="btn" onClick={doSearch}>Search</button>
+        <button className="btn" onClick={doSearch}>
+          Search
+        </button>
         <div className="data">
-          {dataNames.length > 0 && productName.length > 2 &&
+          {showDataNames &&
+            dataNames.length > 0 &&
+            productName.length > 2 &&
             dataNames.map((d, i) => (
-              <div className="data_field" key={i} name={d} onClick={(e) => fillSeachBox(e)}>
-                <span>
-                  {d}
-                </span>
+              <div
+                className="data_field"
+                key={i}
+                name={d}
+                onClick={() => fillSeachBox(d)}
+              >
+                <span>{d}</span>
               </div>
             ))}
         </div>
       </div>
       <div className="row">
-        {products.map((product, index) => (
-          <div key={index} className="col-4 eachProduct">
-            <img
-              src={`/${
-                product.photos.find((x) => x.featured === true).photoUrl
-              }`}
-              className="cImage"
-              onClick={() => navigate(`/product_detail/${product._id}`)}
-              alt=""
-            />
-            <h4>{product.name}</h4>
-            <div className="rating">
-              <i className="fa fa-star" />
-              <i className="fa fa-star" />
-              <i className="fa fa-star" />
-              <i className="fa fa-star" />
-              <i className="fa fa-star-o" />
-            </div>
-            <p>{product.price}</p>
-            <div style={{ textAlign: "center" }}>
-              <button
-                onClick={() =>
-                  dispatch(cartActions.addToCart({ item: product }))
-                }
-                className="btn"
-                style={{ cursor: "pointer" }}
-              >
-                Add To Cart
-              </button>
-            </div>
-          </div>
-        ))}
+        {products.map((product, index) => {
+          if (product.visible === true) {
+            return (
+              <div key={index} className="col-4 eachProduct">
+                <img
+                  src={`http://localhost:5000/${
+                    product.photos.find((x) => x.featured === true).photoUrl
+                  }`}
+                  className="cImage"
+                  onClick={() => navigate(`/product_detail/${product._id}`)}
+                  alt=""
+                />
+                <h4>{product.name}</h4>
+                <div className="rating">
+                  <i className="fa fa-star" />
+                  <i className="fa fa-star" />
+                  <i className="fa fa-star" />
+                  <i className="fa fa-star" />
+                  <i className="fa fa-star-o" />
+                </div>
+                <p>{product.price}</p>
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() =>
+                      dispatch(cartActions.addToCart({ item: product }))
+                    }
+                    className="btn"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Add To Cart
+                  </button>
+                </div>
+              </div>
+            );
+          }
+        })}
       </div>
       <div className="page-btn">
         {pages.map((page, index) => {

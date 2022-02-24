@@ -40,7 +40,7 @@ const Product_Details = () => {
         <div className="row">
           <div className="col-2">
              <img
-              src={featuredImage && `/${featuredImage}`}
+              src={featuredImage && `http://localhost:5000/${featuredImage}`}
               width="100%"
               id="productImg"
               alt=""
@@ -51,7 +51,7 @@ const Product_Details = () => {
                   <img
                     key={index}
                     className="small-img"
-                    src={`/${photo.photoUrl}`}
+                    src={`http://localhost:5000/${photo.photoUrl}`}
                     onClick={() => setFeaturedImage(photo.photoUrl)}
                     width="20%"
                     alt=""

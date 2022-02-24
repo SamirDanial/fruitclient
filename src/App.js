@@ -41,7 +41,7 @@ import AdminRoutes from "./adminRoutes";
 import "./App.css";
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: 'http://localhost:5000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -14,6 +14,7 @@ const CreateProduct = () => {
   const dispatch = useDispatch();
   const [categoryToSelect, setCategoryToSelect] = useState([]);
   const [visibality, setVisibality] = useState(true);
+  const [featured, setFeatured] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const [featureName, setFeatureName] = useState("");
   const [previewImages, setPreviewImages] = useState([]);
@@ -21,6 +22,8 @@ const CreateProduct = () => {
   const [productToCreate, setProductToCreate] = useState({
     name: "",
     description: "",
+    unitDescription: "",
+    marketPrice: 0,
     price: 0,
     visible: visibality,
     category: "",
@@ -31,8 +34,11 @@ const CreateProduct = () => {
     variables: {
       name: productToCreate.name,
       description: productToCreate.description,
+      unitDescription: productToCreate.unitDescription,
+      marketPrice: parseInt(productToCreate.marketPrice),
       price: parseInt(productToCreate.price),
       visible: visibality,
+      featured: featured,
       categoriesID: categoryToSelect,
       photos: photoUrls,
     },
@@ -105,6 +111,7 @@ const CreateProduct = () => {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    console.log(productToCreate);
     if (!selectedFiles) {
       createProduct()
         .then((res) => {
@@ -121,7 +128,7 @@ const CreateProduct = () => {
       const fd = new FormData();
       fd.append("image", selectedFiles[i], selectedFiles[i].name);
       axios
-        .put("/fruit-images", fd, {
+        .put("http://localhost:5000/fruit-images", fd, {
           headers: {
             "x-auth-token": token,
           },
@@ -188,11 +195,27 @@ const CreateProduct = () => {
                 />
 
                 <input
+                  type="text"
+                  name="unitDescription"
+                  value={productToCreate.unitDescription}
+                  onChange={(e) => CollectFormData(e)}
+                  placeholder="Unit Description"
+                />
+
+                <input
                   type="number"
                   name="price"
                   value={productToCreate.price}
                   onChange={(e) => CollectFormData(e)}
                   placeholder="Price"
+                />
+
+                <input
+                  type="number"
+                  name="marketPrice"
+                  value={productToCreate.marketPrice}
+                  onChange={(e) => CollectFormData(e)}
+                  placeholder="Market Price"
                 />
 
                 <select
@@ -206,6 +229,18 @@ const CreateProduct = () => {
                   <option value="0">Select Visibility</option>
                   <option value={true}>Visible</option>
                   <option value={false}>Unvisible</option>
+                </select>
+
+                <select
+                  name="featured"
+                  value={featured}
+                  onChange={(e) =>
+                    setFeatured(e.target.value === "true" ? true : false)
+                  }
+                  className="createProductSelector"
+                >
+                  <option value={false}>Not Featured Product</option>
+                  <option value={true}>Featured Product</option>
                 </select>
 
                 <select
